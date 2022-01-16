@@ -1,12 +1,3 @@
-#copy baseCode
-#for each object
-#   make a copy of objects.js and do the apropriate things (rename routes, etc)
-#   make objectFields in constants.js
-#   add route to server imports
-#iterate through every file and update all <<>> things
-
-
-
 # Necessary imports
 import shutil
 import os
@@ -54,3 +45,15 @@ for key in replaceKeysDict:
 if not missingAKey:
     # Copy the content from source to destination
     destination = shutil.copytree(src, dest)
+
+#left to do:::
+
+#might have to mess with the way objects are put in the json, that seems sketch
+#but should be pretty close to trying it!!!
+#might also have to enable waterman IP on mongo's website
+
+#for each object
+#   make a copy of objects.js and do the apropriate things (rename routes, etc)
+#   make objectFields in constants.js
+#   add route to server imports
+#iterate through every file and update all <<>> things

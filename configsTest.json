@@ -12,6 +12,6 @@
     "internalServerErrorMessage": "An internal server error occurred. Please try again.",
     "author": "Frank Bobson",
     "otherDbCollectionExports": "objectsCollection: objectsCollection,",
-    "fields": "",
-    "routesImportLines": ""
+    "fields": ["const objectFields = [\n {name: 'field1', type: 'string', required: true}, {name: 'field2', type: 'boolean', required: true}, \n {name: 'field3', type: 'number', required: false}, \n]"],
+    "routesImportLines": "require('./routes/objects.js')(router, app) //CRUD routes for objects"
 }

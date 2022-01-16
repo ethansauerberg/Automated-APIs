@@ -131,7 +131,13 @@ const resourceDoc = { //empty resource document for jsonapi.org compliant API re
 
 
 //____Fields are used to ensure required fields are present and set them to the right type
-//<<fields>>
+//<<fields>>  
+//format: 
+//const objectFields = [ //the fields for a new queryEffect that is being created
+//  {name: "field1", type: "string", required: true},
+//  {name: "field2", type: "boolean", required: true},
+//  {name: "field3", type: "number", required: false},
+//]
 
 
 //users JSON.parse and JSON.stringify to deep copy an object.
