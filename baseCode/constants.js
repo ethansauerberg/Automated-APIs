@@ -3,7 +3,7 @@
 * CONFIDENTIAL
 * __________________
 *
-*  Copyright (C) 2021
+*  Copyright (C) 2022
 *  Ethan Sauerberg
 *  All Rights Reserved.
 *
@@ -39,10 +39,11 @@ passwordValidatorSchema
 
 
 //for database and authorization and operation
+const mongoClusterName = '<<mongoCluserName' //your mongodb cluster name
 const mongoUser = '<<mongoUser>>' //your mongodb cloud username
 const mongoPass = '<<mongoPass>>' //your mongodb cloud password
 const dbName = '<<mongoDbName>>' //your mongodb cloud database name
-const usersCollection = 'users' //your mongodb users database db/collection name
+const usersCollection = 'users' //your mongodb users collection name
 //<<otherCollections>> 
 
 
@@ -147,6 +148,7 @@ module.exports = {
   //all of our constants.....
 
   //for database and authorization and operation
+  mongoClusterName: mongoClusterName,
   mongoUser: mongoUser,
   mongoPass: mongoPass,
   dbName: dbName,

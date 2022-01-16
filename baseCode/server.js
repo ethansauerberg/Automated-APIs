@@ -85,7 +85,7 @@ let router = express.Router();
 
 //import routes from routes folder
 require('./routes/users.js')(router, app) //CRUD routes for users
-//<<routesRequireLines>>
+//<<routesImportLines>>
 
 //uses our router:
 app.use('/', router);

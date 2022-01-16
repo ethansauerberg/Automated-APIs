@@ -17,7 +17,7 @@
 * from Ethan Sauerberg
 *
 *************************************************************************/
-const constants = require('../constants.js')
+const Constants = require('../constants.js')
 const TypeParser = require('./toType.js')
 const ToString = require('./toString.js')
 const LynxOptionsResultsGetter = require('./LynxOptionsResultsGetter.js')
@@ -42,8 +42,8 @@ module.exports = {
         fields.forEach(element=>{
           if((element.required === true) && isNullUndefinedOrEmpty(input[element.name])){ //if it's required and null, error
             Logger.error("A required field was missing")
-            let thisErrorDoc = constants.newErrorDoc();
-            thisErrorDoc.errors.push(constants.allErrors.missingInput)
+            let thisErrorDoc = Constants.newErrorDoc();
+            thisErrorDoc.errors.push(Constants.allErrors.missingInput)
             return thisErrorDoc, null;
           }
           else if(!isNullUndefinedOrEmpty(input[element.name])){ //only continue if field exists b/c if it's not required and missing, nothing to do
@@ -67,8 +67,8 @@ module.exports = {
               }
               else { //element.nestedType is missing, is array, or is some other invalid type
                 Logger.error("objectFromTemplate was fed a document with an array whose nestedType was not 'object', 'string', 'number', or 'boolean'")
-                let thisErrorDoc = constants.newErrorDoc();
-                thisErrorDoc.errors.push(constants.allErrors.invalidTemplateInput)
+                let thisErrorDoc = Constants.newErrorDoc();
+                thisErrorDoc.errors.push(Constants.allErrors.invalidTemplateInput)
                 return thisErrorDoc, null;
               }
             }
@@ -86,8 +86,8 @@ module.exports = {
             }
             else { //if it's not an array, object, or basic type, something is wrong
               Logger.error("objectFromTemplate was fed a document with a type that was none of 'object', 'array', 'number', 'string', and 'boolean'")
-              let thisErrorDoc = constants.newErrorDoc();
-              thisErrorDoc.errors.push(constants.allErrors.invalidTemplateInput)
+              let thisErrorDoc = Constants.newErrorDoc();
+              thisErrorDoc.errors.push(Constants.allErrors.invalidTemplateInput)
               return thisErrorDoc, null;
             }
           }

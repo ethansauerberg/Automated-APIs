@@ -47,7 +47,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@cluster0.ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
+      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
@@ -112,7 +112,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@cluster0.ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
+      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
@@ -194,7 +194,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@cluster0.ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
+      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
@@ -266,7 +266,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@cluster0.ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
+      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
@@ -364,7 +364,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@cluster0.ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
+      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
@@ -427,7 +427,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@cluster0.ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
+      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
@@ -493,7 +493,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@cluster0.ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
+      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
@@ -556,7 +556,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@cluster0.ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
+      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){

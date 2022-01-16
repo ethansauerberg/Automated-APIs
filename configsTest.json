@@ -1,0 +1,17 @@
+{
+    "url": "localhost:2000",
+    "docsUrl": "localhost:2000",
+    "adminEmail": "ethansauerberg@gmail.com",
+    "mongoUser": "autoAPIUsername",
+    "mongoPass": "autoAPIPassword!@#$%",
+    "mongoDbName": "testDb",
+    "otherCollections": "const objectsCollection = 'objects' //your mongodb objects collection name",
+    "invalidInputMessage": "Invalid or missing input. Please see the docs at the above link for more information.",
+    "invalidUsernameOrPasswordMessage": "No username/password match.",
+    "requestedResourcesDidNotExistMessage": "The requested resource(s) did not exist.",
+    "internalServerErrorMessage": "An internal server error occurred. Please try again.",
+    "author": "Frank Bobson",
+    "otherDbCollectionExports": "objectsCollection: objectsCollection,",
+    "fields": "",
+    "routesImportLines": ""
+}

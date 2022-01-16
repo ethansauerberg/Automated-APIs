@@ -1,0 +1,17 @@
+{
+    "url": "",
+    "docsUrl": "",
+    "adminEmail": "",
+    "mongoUser": "",
+    "mongoPass": "",
+    "mongoDbName": "",
+    "otherCollections": "",
+    "invalidInputMessage": "",
+    "invalidUsernameOrPasswordMessage": "",
+    "requestedResourcesDidNotExistMessage": "",
+    "internalServerErrorMessage": "",
+    "author": "",
+    "otherDbCollectionExports": "",
+    "fields": "",
+    "routesImportLines": ""
+}

@@ -18,7 +18,7 @@
 *
 *************************************************************************/
 
-const constants = require('../constants.js')
+const Constants = require('../constants.js')
 const ObjectId = require("mongodb").ObjectId;
 const Logger = require('./customLog.js')
 
@@ -33,8 +33,8 @@ module.exports = {
     }
     else{
       Logger.error("An unknown error occurred with Mongo's ObjectId's ObjectId(filter) function")
-      let thisErrorDoc = constants.newErrorDoc();
-      thisErrorDoc.errors.push(constants.allErrors.invalidIdFilter)
+      let thisErrorDoc = Constants.newErrorDoc();
+      thisErrorDoc.errors.push(Constants.allErrors.invalidIdFilter)
       cb(thisErrorDoc, null);
     }
   }

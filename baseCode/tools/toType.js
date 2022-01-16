@@ -17,7 +17,7 @@
 * from Ethan Sauerberg
 *
 *************************************************************************/
-const constants = require('../constants.js')
+const Constants = require('../constants.js')
 const ToString = require('./toString.js')
 const Logger = require('./customLog.js')
 

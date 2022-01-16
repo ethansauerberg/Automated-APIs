@@ -17,7 +17,7 @@
 * from Ethan Sauerberg
 *
 *************************************************************************/
-const constants = require('../constants.js')
+const Constants = require('../constants.js')
 const TypeParser = require('./typeParser.js')
 const ToString = require('./toString.js')
 const LynxOptionsResultsGetter = require('./LynxOptionsResultsGetter.js')
@@ -40,8 +40,8 @@ module.exports = {
 function isNullUndefinedOrEmpty(input){
   if(input === null || input === undefined || input === ""){
     Logger.warn("One or more of the required inputs was missing. Inputs: " + ToString.toString(input))
-    let thisErrorDoc = constants.newErrorDoc();
-    thisErrorDoc.errors.push(constants.allErrors.missingInput)
+    let thisErrorDoc = Constants.newErrorDoc();
+    thisErrorDoc.errors.push(Constants.allErrors.missingInput)
     return thisErrorDoc;
   }
   else {
@@ -62,8 +62,8 @@ function checkInputsExist(arrayOfInputs){
   }
   else {
     Logger.warn("One or more of the required inputs was missing. Inputs: " + ToString.toString(arrayOfInputs))
-    let thisErrorDoc = constants.newErrorDoc();
-    thisErrorDoc.errors.push(constants.allErrors.missingInput)
+    let thisErrorDoc = Constants.newErrorDoc();
+    thisErrorDoc.errors.push(Constants.allErrors.missingInput)
     return thisErrorDoc;
   }
 }
