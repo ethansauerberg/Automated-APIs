@@ -1,17 +1,22 @@
 {
-    "url": "localhost:2000",
-    "docsUrl": "localhost:2000",
-    "adminEmail": "ethansauerberg@gmail.com",
-    "mongoUser": "autoAPIUsername",
-    "mongoPass": "autoAPIPassword!@#$%",
-    "mongoDbName": "testDb",
-    "otherCollections": "const objectsCollection = 'objects' //your mongodb objects collection name",
-    "invalidInputMessage": "Invalid or missing input. Please see the docs at the above link for more information.",
-    "invalidUsernameOrPasswordMessage": "No username/password match.",
-    "requestedResourcesDidNotExistMessage": "The requested resource(s) did not exist.",
-    "internalServerErrorMessage": "An internal server error occurred. Please try again.",
-    "author": "Frank Bobson",
-    "otherDbCollectionExports": "objectsCollection: objectsCollection,",
-    "fields": ["const objectFields = [\n {name: 'field1', type: 'string', required: true}, {name: 'field2', type: 'boolean', required: true}, \n {name: 'field3', type: 'number', required: false}, \n]"],
-    "routesImportLines": "require('./routes/objects.js')(router, app) //CRUD routes for objects"
+    "replacers":{
+        "url": "localhost:2000",
+        "docsUrl": "localhost:2000",
+        "adminEmail": "ethansauerberg@gmail.com",
+        "mongoUser": "autoAPIUsername",
+        "mongoPass": "autoAPIPassword!@#$%",
+        "mongoClusterName": "Cluster0",
+        "otherCollections": "const objectsCollection = 'objects' //your mongodb objects collection name",
+        "invalidInputMessage": "Invalid or missing input. Please see the docs at the above link for more information.",
+        "invalidUsernameOrPasswordMessage": "No username/password match.",
+        "requestedResourcesDidNotExistMessage": "The requested resource(s) did not exist.",
+        "internalServerErrorMessage": "An internal server error occurred. Please try again.",
+        "author": "Frank Bobson",
+        "otherDbCollectionExports": "objectsCollection: objectsCollection,",
+        "fields": "const objectFields = [\n {name: 'field1', type: 'string', required: true}, \n {name: 'field2', type: 'boolean', required: true}, \n {name: 'field3', type: 'number', required: false}, \n]",
+        "routesImportLines": "require('./routes/objects.js')(router, app) //CRUD routes for objects"
+    },
+    "objects": [
+        "object"
+    ]
 }

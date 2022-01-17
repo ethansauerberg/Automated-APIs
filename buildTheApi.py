@@ -14,11 +14,11 @@ dest = 'C:/Users/ethan/Dropbox/PC/Documents/PersonalProjects/Automated-APIs/newA
 # Keys of things to replace
 replaceKeysDict = {
     "url": "<<siteUrl>>",
-    "docsUrl": "<<siteDocsUrl",
+    "docsUrl": "<<siteDocsUrl>>",
     "adminEmail": "<<adminEmail>>",
     "mongoUser": "<<mongoUser>>",
     "mongoPass": "<<mongoPass>>",
-    "mongoDbName": "<<mongoDbName>>",
+    "mongoClusterName": "<<mongoClusterName>>",
     "otherCollections": "//<<otherCollections>>",
     "invalidInputMessage": "<<invalidInputMessage>>",
     "invalidUsernameOrPasswordMessage": "<<invalidUsernameOrPasswordMessage>>",
@@ -27,24 +27,50 @@ replaceKeysDict = {
     "author": "<<author>>",
     "otherDbCollectionExports": "<<otherDbCollectionExports>>",
     "fields": "//<<fields>>",
-    "routesRequireLines": "//<<routesImportLines>>"
+    "routesImportLines": "//<<routesImportLines>>"
 }
 
 # What to replace each with
-replaceDataDict = json.load("configs.json")
-
+configsFile = open('configsTest.json')
+configs = json.load(configsFile)
+replacers = configs["replacers"]
+configsFile.close()
+# print(configs)
 missingAKey = False
 for key in replaceKeysDict:
-    if not key in replaceDataDict:
+    if not key in replacers:
         missingAKey = True
         print("Error: missing data in configs.json. Missing key: " + key)
-    elif replaceDataDict[key] == "":
+    elif not replacers[key]:
         missingAKey = True
         print("Error: missing data in configs.json. Missing key: " + key)
 
-if not missingAKey:
-    # Copy the content from source to destination
-    destination = shutil.copytree(src, dest)
+
+# if not missingAKey:
+#     # Copy the content from source to destination
+#     destination = shutil.copytree(src, dest)
+
+files = os.listdir("newAPICode")
+# print(files)
+
+def replaceAndRewrite(filesList, location):
+    for item in filesList:
+        if not "." in item:
+            print("found directory '" + item + "', recursing on files: ")
+            print(os.listdir(location +"/"+ item))
+            replaceAndRewrite(os.listdir(location +"/"+ item), location +"/"+ item)
+        else:
+            # with open(location + item, "r") as file:
+            #     fileData = file.read()
+            # for key in replaceKeysDict:
+            #     fileData = fileData.replace(replaceKeysDict[key], replacers[key])
+            # with open(location + item, "w") as file:
+            #     file.write(fileData)
+            print(item)
+
+replaceAndRewrite(files, dest)
+
+
 
 #left to do:::
 

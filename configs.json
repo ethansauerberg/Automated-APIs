@@ -1,17 +1,22 @@
 {
-    "url": "",
-    "docsUrl": "",
-    "adminEmail": "",
-    "mongoUser": "",
-    "mongoPass": "",
-    "mongoDbName": "",
-    "otherCollections": "",
-    "invalidInputMessage": "",
-    "invalidUsernameOrPasswordMessage": "",
-    "requestedResourcesDidNotExistMessage": "",
-    "internalServerErrorMessage": "",
-    "author": "",
-    "otherDbCollectionExports": "",
-    "fields": "",
-    "routesImportLines": ""
+    "replacers": {
+        "url": "",
+        "docsUrl": "",
+        "adminEmail": "",
+        "mongoUser": "",
+        "mongoPass": "",
+        "mongoClusterName": "",
+        "otherCollections": "",
+        "invalidInputMessage": "",
+        "invalidUsernameOrPasswordMessage": "",
+        "requestedResourcesDidNotExistMessage": "",
+        "internalServerErrorMessage": "",
+        "author": "",
+        "otherDbCollectionExports": "",
+        "fields": "",
+        "routesImportLines": ""
+    },
+    "objects": [
+
+    ]
 }
