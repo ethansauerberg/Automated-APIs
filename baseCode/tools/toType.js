@@ -18,7 +18,6 @@
 *
 *************************************************************************/
 const Constants = require('../constants.js')
-const ToString = require('./toString.js')
 const Logger = require('./customLog.js')
 
 const maxRecursions = 5;

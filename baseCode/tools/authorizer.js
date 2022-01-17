@@ -24,7 +24,7 @@ const InputChecker = require('./objectCreator.js')
 const MongoOperations = require('./mongoOperations.js')
 const PasswordHash = require('password-hash'); //for hasing passwords
 const Logger = require('./customLog.js')
-const ToString = require('./toString.js')
+const ToType = require('./toType.js')
 
 
 
@@ -47,7 +47,7 @@ module.exports = {
         Logger.error('2');
 
         if(findOneErrorDoc){
-          Logger.error("Error occurred in MongoOperations.findOne within verifyUser: " + ToString.toString(findOneErrorDoc))
+          Logger.error("Error occurred in MongoOperations.findOne within verifyUser: " + ToType.toString(findOneErrorDoc))
           cb(findOneErrorDoc, null, null);
         }
         else {
@@ -91,7 +91,7 @@ module.exports = {
         Logger.info("Converted the id to a MongoDB _id object")
         MongoOperations.findOne({email: email}, Constants.usersDb, (findOneErrorDoc, findOneReturnDoc)=>{
           if(findOneErrorDoc){
-            Logger.error("Error occurred in MongoOperations.findOne on user within verifyCampaignCreator" + ToString.toString(findOneErrorDoc))
+            Logger.error("Error occurred in MongoOperations.findOne on user within verifyCampaignCreator" + ToType.toString(findOneErrorDoc))
             cb(findOneErrorDoc, null, null);
           }
           else {
@@ -151,7 +151,7 @@ module.exports = {
       }
       MongoOperations.findOne({email: email}, Constants.usersDb, (findOneErrorDoc, findOneReturnDoc)=>{
         if(findOneErrorDoc){
-          Logger.error("Error occurred in MongoOperations.findOne within verifyLeadLynxAdmin" + ToString.toString(findOneErrorDoc))
+          Logger.error("Error occurred in MongoOperations.findOne within verifyLeadLynxAdmin" + ToType.toString(findOneErrorDoc))
           cb(findOneErrorDoc);
         }
         else {
@@ -192,7 +192,7 @@ module.exports = {
       }
       MongoOperations.findOne({email: email}, Constants.usersDb, (findOneErrorDoc, findOneReturnDoc)=>{
         if(findOneErrorDoc){
-          Logger.error("Error occurred in MongoOperations.findOne within verifyAccountLevel" + ToString.toString(findOneErrorDoc))
+          Logger.error("Error occurred in MongoOperations.findOne within verifyAccountLevel" + ToType.toString(findOneErrorDoc))
           cb(findOneErrorDoc);
         }
         else {

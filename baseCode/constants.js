@@ -42,7 +42,7 @@ passwordValidatorSchema
 const mongoClusterName = '<<mongoClusterName>>' //your mongodb cluster name
 const mongoUser = '<<mongoUser>>' //your mongodb cloud username
 const mongoPass = '<<mongoPass>>' //your mongodb cloud password
-const dbName = '<<mongoDbName>>' //your mongodb cloud database name
+const dbName = '<<mongoClusterName>>' //your mongodb cloud database name
 const usersCollection = 'users' //your mongodb users collection name
 //<<otherCollections>> 
 

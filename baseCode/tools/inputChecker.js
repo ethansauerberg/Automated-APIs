@@ -18,9 +18,7 @@
 *
 *************************************************************************/
 const Constants = require('../constants.js')
-const TypeParser = require('./typeParser.js')
-const ToString = require('./toString.js')
-const LynxOptionsResultsGetter = require('./LynxOptionsResultsGetter.js')
+const ToType = require('./toType.js')
 const Logger = require('./customLog.js')
 
 module.exports = {
@@ -39,7 +37,7 @@ module.exports = {
 
 function isNullUndefinedOrEmpty(input){
   if(input === null || input === undefined || input === ""){
-    Logger.warn("One or more of the required inputs was missing. Inputs: " + ToString.toString(input))
+    Logger.warn("One or more of the required inputs was missing. Inputs: " + ToType.toString(input))
     let thisErrorDoc = Constants.newErrorDoc();
     thisErrorDoc.errors.push(Constants.allErrors.missingInput)
     return thisErrorDoc;
@@ -61,7 +59,7 @@ function checkInputsExist(arrayOfInputs){
     return null;
   }
   else {
-    Logger.warn("One or more of the required inputs was missing. Inputs: " + ToString.toString(arrayOfInputs))
+    Logger.warn("One or more of the required inputs was missing. Inputs: " + ToType.toString(arrayOfInputs))
     let thisErrorDoc = Constants.newErrorDoc();
     thisErrorDoc.errors.push(Constants.allErrors.missingInput)
     return thisErrorDoc;

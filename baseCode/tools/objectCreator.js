@@ -18,16 +18,14 @@
 *
 *************************************************************************/
 const Constants = require('../constants.js')
-const TypeParser = require('./toType.js')
-const ToString = require('./toString.js')
-const LynxOptionsResultsGetter = require('./LynxOptionsResultsGetter.js')
+const ToType = require('./toType.js')
 const Logger = require('./customLog.js')
 
 module.exports = {
   //creates a new object from input and list of required fields, or errors if fields are missing
   //returns errorDoc, object (one of these will be null)
   createNewObject: (input, fields)=>{  //This cannot handle fields that are arrays of arrays, or arrays with multiple types of objects inside
-    Logger.info("At the top of objectFromTemplate with: " + ToString.toString({input: input, fields: fields}))
+    Logger.info("At the top of objectFromTemplate with: " + ToType.toString({input: input, fields: fields}))
     let checkInputsReturn = checkInputsExist([input, fields])
     if(checkInputsReturn !== null){
       return checkInputsReturn
@@ -62,7 +60,7 @@ module.exports = {
               }
               else if(element.nestedType === "string" || element.nestedType === "number" || element.nestedType === "boolean"){ //for arrays of basic types, type each and push
                 input[element.name].forEach(item=>{
-                  newObject[element.name].push(TypeParser.toType(item, element.nestedType))
+                  newObject[element.name].push(ToType.toType(item, element.nestedType))
                 })
               }
               else { //element.nestedType is missing, is array, or is some other invalid type
@@ -82,7 +80,7 @@ module.exports = {
               }
             }
             else if(element.type === "string" || element.type === "number" || element.type === "boolean"){ //for basic types, just type them
-              newObject[element.name] = TypeParser.toType(input[element.name], element.type)
+              newObject[element.name] = ToType.toType(input[element.name], element.type)
             }
             else { //if it's not an array, object, or basic type, something is wrong
               Logger.error("objectFromTemplate was fed a document with a type that was none of 'object', 'array', 'number', 'string', and 'boolean'")

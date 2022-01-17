@@ -46,9 +46,9 @@ for key in replaceKeysDict:
         print("Error: missing data in configs.json. Missing key: " + key)
 
 
-# if not missingAKey:
-#     # Copy the content from source to destination
-#     destination = shutil.copytree(src, dest)
+if not missingAKey:
+    # Copy the content from source to destination
+    destination = shutil.copytree(src, dest)
 
 files = os.listdir("newAPICode")
 # print(files)
@@ -56,17 +56,17 @@ files = os.listdir("newAPICode")
 def replaceAndRewrite(filesList, location):
     for item in filesList:
         if not "." in item:
-            print("found directory '" + item + "', recursing on files: ")
-            print(os.listdir(location +"/"+ item))
+            # print("found directory '" + item + "', recursing on files: ")
+            # print(os.listdir(location +"/"+ item))
             replaceAndRewrite(os.listdir(location +"/"+ item), location +"/"+ item)
         else:
-            # with open(location + item, "r") as file:
-            #     fileData = file.read()
-            # for key in replaceKeysDict:
-            #     fileData = fileData.replace(replaceKeysDict[key], replacers[key])
-            # with open(location + item, "w") as file:
-            #     file.write(fileData)
-            print(item)
+            with open(location + "/" + item, "r") as file:
+                fileData = file.read()
+            for key in replaceKeysDict:
+                fileData = fileData.replace(replaceKeysDict[key], replacers[key])
+            with open(location + "/" + item, "w") as file:
+                file.write(fileData)
+            print("Wrote: ..." + location[len(location)-16:] + "/" + item)
 
 replaceAndRewrite(files, dest)
 

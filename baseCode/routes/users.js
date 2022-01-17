@@ -23,7 +23,7 @@ module.exports=(router, app)=>{
     const MongoOperations = require('../tools/mongoOperations.js')
     const InputChecker = require('../tools/objectCreator.js')
     const Authorizer = require('../tools/authorizer.js')
-    const ToString = require('../tools/toString.js')
+    const ToType = require('../tools/toType.js')
     const PasswordHash = require('password-hash'); //for hasing passwords
     const EmailValidator = require("email-validator"); //for validating emails
     const Logger = require('../tools/customLog.js')
@@ -36,7 +36,7 @@ module.exports=(router, app)=>{
       //req.body.password (new user's password in plain text, which will be hashed by password-hash)
     router.post('/v1/users', (req,res)=>{
       let {email, password} = req.body
-      Logger.info("\n\nAt the top of POST/users with: " + ToString.toString({email: email, password: password}))
+      Logger.info("\n\nAt the top of POST/users with: " + ToType.toString({email: email, password: password}))
       let inputErrorDoc = InputChecker.checkInputsExist([email, password])
       if(inputErrorDoc !== null){
         res.send(inputErrorDoc)
@@ -103,7 +103,7 @@ module.exports=(router, app)=>{
     router.get('/v1/users/:email', (req, res)=>{
       let {email} = req.params
       let {password} = req.query
-      Logger.info("\n\nAt the top of GET/users/:email with with: " + ToString.toString({email: email, password: password}))
+      Logger.info("\n\nAt the top of GET/users/:email with with: " + ToType.toString({email: email, password: password}))
       console.log(email, password)
       Authorizer.verifyUser(email, password, (verifyErrorDoc, verifyUserDoc, verifyId)=>{
         if(verifyErrorDoc !== null){
@@ -126,7 +126,7 @@ module.exports=(router, app)=>{
     // router.put('/v1/users/:email', (req, res)=>{
     //   let {email} = req.params
     //   let {password, toUpdate} = req.body
-    //   Logger.info("\n\nAt the top of PUT/users:email with: " + ToString.toString({email: email, password: password, toUpdate: toUpdate}))
+    //   Logger.info("\n\nAt the top of PUT/users:email with: " + ToType.toString({email: email, password: password, toUpdate: toUpdate}))
     //   Authorizer.verifyUser(email, password, (verifyErrorDoc, verifyUserDoc, verifyId)=>{
     //     if(verifyErrorDoc !== null){
     //       res.send(verifyErrorDoc)
@@ -154,7 +154,7 @@ module.exports=(router, app)=>{
     router.delete('/v1/users/:email', (req, res)=>{
       let {email} = req.params
       let {password} = req.query
-      Logger.info("\n\nAt the top of DELETE/users:email with: " + ToString.toString({email: email, password: password}))
+      Logger.info("\n\nAt the top of DELETE/users:email with: " + ToType.toString({email: email, password: password}))
       Authorizer.verifyUser(email, password, (verifyErrorDoc, verifyUserDoc, verifyId)=>{
         if(verifyErrorDoc !== null){
           res.send(verifyErrorDoc)
