@@ -22,7 +22,7 @@ const MongoClient = require('mongodb').MongoClient;
 const Constants = require('../constants.js')
 const InputChecker = require('./objectCreator.js')
 const MongoIdCreator = require('./mongoIdCreator.js')
-const ToString = require('./toString.js')
+const ToType = require('./toType.js')
 const Logger = require('./customLog.js')
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
-          Logger.error('There was an error connecting to mongo error: '+ToString.toString(dbErr))
+          Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
           thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
           db.close()
           cb(thisErrorDoc, null)
@@ -46,16 +46,16 @@ module.exports = {
         else {
           let collection = db.db(Constants.dbName).collection(whichCollection);
           if(typeof findFilter !== 'object' || findFilter === null){
-            Logger.error("The findFilter passed was not an object: " + ToString.toString(findFilter))
+            Logger.error("The findFilter passed was not an object: " + ToType.toString(findFilter))
             thisErrorDoc.errors.push(Constants.allErrors.invalidFilter)
             db.close()
             cb(thisErrorDoc, null)
           }
           else {
-            Logger.info("findFilter is: " + ToString.toString(findFilter))
+            Logger.info("findFilter is: " + ToType.toString(findFilter))
             collection.findOne(findFilter, (findErr, findRes)=>{
               if(findErr){
-                Logger.error("An error occured in findOne: " + ToString.toString(findErr))
+                Logger.error("An error occured in findOne: " + ToType.toString(findErr))
                 thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
                 db.close()
                 cb(thisErrorDoc, null)
@@ -65,7 +65,7 @@ module.exports = {
                 returnDoc.data.attributes = findRes;
                 returnDoc.data.type = whichCollection;
                 returnDoc.data.id = findRes._id;
-                Logger.info("Full success for this findOne, doc to return: " + ToString.toString(returnDoc))
+                Logger.info("Full success for this findOne, doc to return: " + ToType.toString(returnDoc))
                 Logger.error('A');
                 db.close()
                 Logger.error('B');
@@ -96,7 +96,7 @@ module.exports = {
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
-          Logger.error('There was an error connecting to mongo error: '+ToString.toString(dbErr))
+          Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
           thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
           db.close()
           cb(thisErrorDoc, null)
@@ -110,7 +110,7 @@ module.exports = {
             cb(thisErrorDoc, null)
           }
           else {
-            Logger.info("findFilter is: " + ToString.toString(findFilter))
+            Logger.info("findFilter is: " + ToType.toString(findFilter))
             collection.find(findFilter, {}).toArray()
             .then((findRes)=>{
               let returnDoc = Constants.newArrayReturnDoc()
@@ -121,7 +121,7 @@ module.exports = {
                 resourceDoc.attributes = element
                 returnDoc.data.push(resourceDoc)
               })
-              Logger.info("Full success for this find, doc to return: " + ToString.toString(returnDoc))
+              Logger.info("Full success for this find, doc to return: " + ToType.toString(returnDoc))
               db.close()
               cb(null, returnDoc);
             })
@@ -171,7 +171,7 @@ module.exports = {
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
-          Logger.error('There was an error connecting to mongo error: '+ToString.toString(dbErr))
+          Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
           thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
           db.close()
           cb(thisErrorDoc, null)
@@ -179,7 +179,7 @@ module.exports = {
         else {
           let collection = db.db(Constants.dbName).collection(whichCollection);
           if(typeof toInsert !== 'object' || toInsert === null){
-            Logger.error("The toInsert passed was not an object: " + ToString.toString(toInsert))
+            Logger.error("The toInsert passed was not an object: " + ToType.toString(toInsert))
             thisErrorDoc.errors.push(Constants.allErrors.invalidInsertObject)
             db.close()
             cb(thisErrorDoc, null)
@@ -188,19 +188,19 @@ module.exports = {
             //here is where we actually perform the operation
             collection.insertOne(toInsert, (insertErr, insertRes)=>{
               if(insertErr){
-                Logger.error("An error occured in insertOne: " + ToString.toString(insertErr))
+                Logger.error("An error occured in insertOne: " + ToType.toString(insertErr))
                 thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
                 db.close()
                 cb(thisErrorDoc, null)
               }
               else if(insertRes){
-                Logger.info("Return from insertOne operation: " + ToString.toString(insertRes))
+                Logger.info("Return from insertOne operation: " + ToType.toString(insertRes))
                 if(insertRes.acknowledged){
                   let returnDoc = Constants.newReturnDoc();
                   returnDoc.data.type = whichCollection;
                   returnDoc.data.id = insertRes.insertedId;
                   returnDoc.data.attributes = insertRes;
-                  Logger.info("Full success for this findOne, doc to return: " + ToString.toString(returnDoc))
+                  Logger.info("Full success for this findOne, doc to return: " + ToType.toString(returnDoc))
                   db.close()
                   cb(null, returnDoc);
                 }
@@ -327,7 +327,7 @@ module.exports = {
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
-          Logger.error('There was an error connecting to mongo error: '+ToString.toString(dbErr))
+          Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
           thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
           db.close()
           cb(thisErrorDoc, null)
@@ -340,10 +340,10 @@ module.exports = {
               cb(idErrorDoc, null)
             }
             else {
-              Logger.info("updateOne mongoId is: " + ToString.toString(mongoId))
+              Logger.info("updateOne mongoId is: " + ToType.toString(mongoId))
               collection.updateOne({_id: mongoId}, update, options, (updateErr, updateRes)=>{
                 if(updateErr){
-                  Logger.error("An error occured in updateOne: " + ToString.toString(updateErr))
+                  Logger.error("An error occured in updateOne: " + ToType.toString(updateErr))
                   thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
                   db.close()
                   cb(thisErrorDoc, null)
@@ -353,7 +353,7 @@ module.exports = {
                   returnDoc.data.attributes = updateRes;
                   returnDoc.data.id = id;
                   returnDoc.data.type = whichCollection
-                  Logger.info("Full success for this updateOne, doc to return: " + ToString.toString(returnDoc))
+                  Logger.info("Full success for this updateOne, doc to return: " + ToType.toString(returnDoc))
                   db.close()
                   cb(null, returnDoc);
                 }
@@ -383,7 +383,7 @@ module.exports = {
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
-          Logger.error('There was an error connecting to mongo error: '+ToString.toString(dbErr))
+          Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
           thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
           db.close()
           cb(thisErrorDoc, null)
@@ -396,10 +396,10 @@ module.exports = {
               cb(idErrorDoc, null)
             }
             else {
-              Logger.info("deleteOne mongoId is: " + ToString.toString(mongoId))
+              Logger.info("deleteOne mongoId is: " + ToType.toString(mongoId))
               collection.deleteOne({_id: mongoId}, (deleteErr, deleteRes)=>{
                 if(deleteErr){
-                  Logger.error("An error occured in deleteOne: " + ToString.toString(deleteErr))
+                  Logger.error("An error occured in deleteOne: " + ToType.toString(deleteErr))
                   thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
                   db.close()
                   cb(thisErrorDoc, null)
@@ -409,7 +409,7 @@ module.exports = {
                   returnDoc.data.attributes = deleteRes;
                   returnDoc.data.id = null
                   returnDoc.data.type = null
-                  Logger.info("Full success for this deleteOne, doc to return: " + ToString.toString(returnDoc))
+                  Logger.info("Full success for this deleteOne, doc to return: " + ToType.toString(returnDoc))
                   db.close()
                   console.log("3")
 
@@ -498,7 +498,7 @@ module.exports = {
       const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
-          Logger.error('There was an error connecting to mongo error: '+ToString.toString(dbErr))
+          Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
           thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
           db.close()
           cb(thisErrorDoc, null)
@@ -517,7 +517,7 @@ module.exports = {
               returnDoc.data.id = null
               returnDoc.data.type = null
               returnDoc.data.attributes = dropSuccess;
-              Logger.info("Full success for this dropCollection, doc to return: " + ToString.toString(returnDoc))
+              Logger.info("Full success for this dropCollection, doc to return: " + ToType.toString(returnDoc))
               db.close()
               cb(null, returnDoc);
             }

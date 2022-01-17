@@ -5,11 +5,11 @@ import sys
 import json
 
 # path
-path = 'C:/Users/ethan/Dropbox/PC/Documents/PersonalProjects/Automated-APIs/'
+path = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/'
 # Source path
-src = 'C:/Users/ethan/Dropbox/PC/Documents/PersonalProjects/Automated-APIs/baseCode'
+src = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/baseCode'
 # Destination path
-dest = 'C:/Users/ethan/Dropbox/PC/Documents/PersonalProjects/Automated-APIs/newAPICode'
+dest = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/newAPICode'
 
 # Keys of things to replace
 replaceKeysDict = {
