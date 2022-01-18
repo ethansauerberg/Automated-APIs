@@ -3,7 +3,7 @@
 * CONFIDENTIAL
 * __________________
 *
-*  Copyright (C) 2021
+*  Copyright (C) 2022
 *  Ethan Sauerberg
 *  All Rights Reserved.
 *
@@ -46,14 +46,14 @@ module.exports=(router, app)=>{
         if(!EmailValidator.validate(email)){
           Logger.warn("Email failed to pass email validator")
           let thisErrorDoc = constants.newErrorDoc();
-          thisErrorDoc.errors.push(constants.allErrors.invalidEmail)
+          thisErrorDoc.errors.push(constants.allErrors.invalidEmailOrPassword)
           res.send(thisErrorDoc)
           return;
         }
         if(constants.validatePassword(password) == false){
           Logger.warn("Password failed to pass password validator")
           let thisErrorDoc = constants.newErrorDoc();
-          thisErrorDoc.errors.push(constants.allErrors.invalidPassword)
+          thisErrorDoc.errors.push(constants.allErrors.invalidEmailOrPassword)
           res.send(thisErrorDoc)
           return;
         }

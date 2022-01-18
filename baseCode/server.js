@@ -18,13 +18,7 @@
  *
 *************************************************************************/
 
-
-// LeadLynx API Server v.1.0.0!
-
-
-// `express` is used to serve up webpages
-// `redis` is used to store user sessions
-// `mongodb` is used to store more heavy-duty objects
+// AutoAPI Server v.1.0.0!
 
 const EXPRESS_APP_PORT = 2000, //2001,
       PUBLIC_DIR = 'public',

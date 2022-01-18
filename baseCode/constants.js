@@ -66,17 +66,26 @@ const allErrors = { //all of the errors that we may return from our API
     title: "Invalid Input",
     detail: "<<invalidInputMessage>>"
   },
-  invalidUsernameOrPassword: {
+  invalidEmailOrPassword: {
     id: 2,
     links: {
       link: "<<siteDocsUrl>>"
     },
     status: 400,
-    title: "Invalid Username or Password",
-    detail: "<<invalidUsernameOrPasswordMessage>>"
+    title: "Invalid Email or Password",
+    detail: "<<invalidEmailOrPasswordMessage>>"
+  },
+  emailTaken: {
+    id: 3,
+    links: {
+      link: "<<siteDocsUrl>>"
+    },
+    status: 400,
+    title: "Email Taken",
+    detail: "<<emailTakenMessage>>"
   },
   requestedResourcesDidNotExist: {
-    id: 3,
+    id: 4,
     links: {
       link: "<<siteDocsUrl>>"
     },
@@ -84,15 +93,25 @@ const allErrors = { //all of the errors that we may return from our API
     title: "Requested Resource(s) Did Not Exist",
     detail: "<<requestedResourcesDidNotExistMessage>>"
   },
+  requestedResourceAccessDenied: {
+    id: 5,
+    links: {
+      link: "<<siteDocsUrl>>"
+    },
+    status: 400,
+    title: "RequestedResourceAccessDenied",
+    detail: "<<requestedResourceAccessDeniedMessage>>"
+  },
   internalServerError: {
-    id: 4,
+    id: 6,
     links: {
       link: "<<siteDocsUrl>>"
     },
     status: 500,
     title: "InternalServerError",
     detail: "<<internalServerErrorMessage>>"
-  }
+  },
+  
 }
 
 //errorDoc, returnDoc, arrayReturnDoc, and resourceDoc for API returns

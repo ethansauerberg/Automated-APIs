@@ -3,7 +3,7 @@
 * CONFIDENTIAL
 * __________________
 *
-*  Copyright (C) 2021
+*  Copyright (C) 2022
 *  Ethan Sauerberg
 *  All Rights Reserved.
 *
@@ -21,7 +21,6 @@ const Constants = require('../constants.js')
 const Logger = require('./customLog.js')
 
 const maxRecursions = 5;
-
 
 module.exports = {
   toType: (item, type)=>{

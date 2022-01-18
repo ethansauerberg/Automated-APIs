@@ -21,13 +21,15 @@ replaceKeysDict = {
     "mongoClusterName": "<<mongoClusterName>>",
     "otherCollections": "//<<otherCollections>>",
     "invalidInputMessage": "<<invalidInputMessage>>",
-    "invalidUsernameOrPasswordMessage": "<<invalidUsernameOrPasswordMessage>>",
+    "invalidEmailOrPasswordMessage": "<<invalidEmailOrPasswordMessage>>",
+    "emailTakenMessage": "<<emailTakenMessage>>",
     "requestedResourcesDidNotExistMessage": "<<requestedResourcesDidNotExistMessage>>",
+    "requestedResourceAccessDenied": "<<requestedResourceAccessDenied",
     "internalServerErrorMessage": "<<internalServerErrorMessage>>",
     "author": "<<author>>",
     "otherDbCollectionExports": "<<otherDbCollectionExports>>",
     "fields": "//<<fields>>",
-    "routesImportLines": "//<<routesImportLines>>"
+    "routesImportLines": "//<<routesImportLines>>",
 }
 
 # What to replace each with
