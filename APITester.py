@@ -62,6 +62,9 @@ testPassword = randomPassword()
 testBadEmail = randomEmail()
 testBadPassword = randomPassword()
 
+testEmail = "asdf@asdf.asdf"
+testPassword = "123ASFasd!@#"
+
 try:
     getResponse = requests.post(url + "/" + configs["version"] + "/users",
     data = {

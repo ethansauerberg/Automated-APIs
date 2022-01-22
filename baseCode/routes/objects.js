@@ -19,7 +19,7 @@
 *************************************************************************/
 
 module.exports=(router, app)=>{
-    // const constants = require('../constants.js')
+    // const Constants = require('../constants.js')
     // const MongoOperations = require('../tools/mongoOperations.js')
     // const InputChecker = require('../tools/inputChecker.js')
     // const Authorizer = require('../tools/authorizer.js')
@@ -45,22 +45,22 @@ module.exports=(router, app)=>{
     //   else {
     //     if(!EmailValidator.validate(email)){
     //       Logger.warn("Email failed to pass email validator")
-    //       let thisErrorDoc = constants.newErrorDoc();
-    //       thisErrorDoc.errors.push(constants.allErrors.invalidEmail)
+    //       let thisErrorDoc = Constants.newErrorDoc();
+    //       thisErrorDoc.errors.push(Constants.allErrors.invalidEmail)
     //       res.send(thisErrorDoc)
     //       return;
     //     }
-    //     if(constants.validatePassword(password) == false){
+    //     if(Constants.validatePassword(password) == false){
     //       Logger.warn("Password failed to pass password validator")
-    //       let thisErrorDoc = constants.newErrorDoc();
-    //       thisErrorDoc.errors.push(constants.allErrors.invalidPassword)
+    //       let thisErrorDoc = Constants.newErrorDoc();
+    //       thisErrorDoc.errors.push(Constants.allErrors.invalidPassword)
     //       res.send(thisErrorDoc)
     //       return;
     //     }
     //     else {
     //       Logger.info("Username and password both passed the validators")
     //       Logger.info("Using MongoOperations.find() to check if a user exists with the username")
-    //       MongoOperations.find({email: email}, constants.usersCollection, (findErrorDoc, findReturnDoc)=>{
+    //       MongoOperations.find({email: email}, Constants.usersCollection, (findErrorDoc, findReturnDoc)=>{
     //         if(findErrorDoc !== null){
     //           res.send(findErrorDoc);
     //           return;
@@ -69,17 +69,17 @@ module.exports=(router, app)=>{
     //           Logger.info("MongoOperations.find() was successful")
     //           if(findReturnDoc.data.length != 0){
     //             Logger.warn("A user already existed with the email: " + email + ". Returning an error doc.")
-    //             let thisErrorDoc = constants.newErrorDoc();
-    //             thisErrorDoc.errors.push(constants.allErrors.emailTaken)
+    //             let thisErrorDoc = Constants.newErrorDoc();
+    //             thisErrorDoc.errors.push(Constants.allErrors.emailTaken)
     //             res.send(thisErrorDoc)
     //             return;
     //           }
     //           else {
     //             Logger.info("The email was not taken. Hashing password and calling MongoOperations.insertOne()")
-    //             let userDoc = constants.newUserDoc()
+    //             let userDoc = Constants.newUserDoc()
     //             userDoc.email = email;
     //             userDoc.password = PasswordHash.generate(password)
-    //             MongoOperations.insertOne(userDoc, constants.usersCollection, (insertErrorDoc, insertReturnDoc)=>{
+    //             MongoOperations.insertOne(userDoc, Constants.usersCollection, (insertErrorDoc, insertReturnDoc)=>{
     //               if(insertErrorDoc !== null){
     //                 res.send(insertErrorDoc)
     //                 return;
@@ -162,7 +162,7 @@ module.exports=(router, app)=>{
     //     }
     //     else {
     //       console.log(verifyId + " first");
-    //       MongoOperations.deleteOne(verifyId, constants.usersCollection, (deleteOneErrorDoc, deleteOneReturnDoc)=>{
+    //       MongoOperations.deleteOne(verifyId, Constants.usersCollection, (deleteOneErrorDoc, deleteOneReturnDoc)=>{
     //         if(deleteOneErrorDoc !== null){
     //           res.send(deleteOneErrorDoc)
     //           return;

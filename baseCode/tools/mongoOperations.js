@@ -34,10 +34,10 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
-      const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
+          console.log(dbErr)
           Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
           thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
           db.close()
@@ -71,7 +71,7 @@ module.exports = {
               }
               else {
                 Logger.info("No result was found in findOne")
-                thisErrorDoc.errors.push(Constants.allErrors.noResultsFound)
+                thisErrorDoc.errors.push(Constants.allErrors.requestedResourcesDidNotExist)
                 db.close()
                 cb(thisErrorDoc, null)
               }
@@ -90,12 +90,12 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
-      const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
+          console.log(dbErr)
           Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
-          thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
+          thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
           db.close()
           cb(thisErrorDoc, null)
         }
@@ -103,7 +103,7 @@ module.exports = {
           let collection = db.db(Constants.dbName).collection(whichCollection);
           if(typeof findFilter !== 'object' || findFilter === null){
             Logger.error("The findFilter passed was not an object: " + findFilter)
-            thisErrorDoc.errors.push(Constants.allErrors.invalidFilter)
+            thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
             db.close()
             cb(thisErrorDoc, null)
           }
@@ -126,7 +126,7 @@ module.exports = {
             // collection.find(findFilter, {}, (findErr, findRes)=>{
             //   if(findErr){
             //     Logger.error("An error occured in find: " + findErr)
-            //     thisErrorDoc.errors.push(constants.allErrors.databaseOperationError)
+                // thisErrorDoc.errors.push(constants.allErrors.internalServerError)
             //     db.close()
             //     cb(thisErrorDoc, null)
             //   }
@@ -146,7 +146,7 @@ module.exports = {
             //   }
             //   else {
             //     Logger.info("No results were found in find")
-            //     thisErrorDoc.errors.push(constants.allErrors.noResultsFound)
+                // thisErrorDoc.errors.push(constants.allErrors.requestedResourcesDidNotExist)
             //     db.close()
             //     cb(thisErrorDoc, null)
             //   }
@@ -165,12 +165,11 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
-      const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
           Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
-          thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
+          thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
           db.close()
           cb(thisErrorDoc, null)
         }
@@ -178,7 +177,7 @@ module.exports = {
           let collection = db.db(Constants.dbName).collection(whichCollection);
           if(typeof toInsert !== 'object' || toInsert === null){
             Logger.error("The toInsert passed was not an object: " + ToType.toString(toInsert))
-            thisErrorDoc.errors.push(Constants.allErrors.invalidInsertObject)
+            thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
             db.close()
             cb(thisErrorDoc, null)
           }
@@ -187,7 +186,7 @@ module.exports = {
             collection.insertOne(toInsert, (insertErr, insertRes)=>{
               if(insertErr){
                 Logger.error("An error occured in insertOne: " + ToType.toString(insertErr))
-                thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+                thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
                 db.close()
                 cb(thisErrorDoc, null)
               }
@@ -204,14 +203,14 @@ module.exports = {
                 }
                 else {
                   Logger.error("insertRes.acknowledged was false in return from mongo in insertOne")
-                  thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+                  thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
                   db.close()
                   cb(thisErrorDoc, null)
                 }
               }
               else {
                 Logger.error("No insertRes was returned from mongo in insertOne")
-                thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+                thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
                 db.close()
                 cb(thisErrorDoc, null)
               }
@@ -230,12 +229,11 @@ module.exports = {
   //   }
   //   else {
   //     let thisErrorDoc = Constants.newErrorDoc();
-  //     const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
-  //     const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  //     const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
   //     db.connect(dbErr => {
   //       if (dbErr){
   //         Logger.error('There was an error connecting to mongo error: '+ToString.toString(dbErr))
-  //         thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
+  //         thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //         db.close()
   //         cb(thisErrorDoc, null)
   //       }
@@ -243,13 +241,13 @@ module.exports = {
   //         let collection = db.db(Constants.dbName).collection(whichCollection);
   //         if(!toInsertArray){
   //           Logger.warn("The toInsertArray passed was null or empty")
-  //           thisErrorDoc.errors.push(Constants.allErrors.missingInput)
+  //           thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //           db.close()
   //           cb(thisErrorDoc, null)
   //         }
   //         else if(!toInsertArray.isArray || toInsertArray === null){
   //           Logger.warn("An item in toInsertArray was not an object: " + ToString.toString(element))
-  //           thisErrorDoc.errors.push(Constants.allErrors.invalidInsertObjectsArray)
+  //           thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //           db.close()
   //           cb(thisErrorDoc, null)
   //         }
@@ -258,7 +256,7 @@ module.exports = {
   //           toInsertArray.forEach(element=>{
   //             if(typeof element !== 'object' || element === null){
   //               Logger.warn("An item in toInsertArray was not an object: " + ToString.toString(element))
-  //               thisErrorDoc.errors.push(Constants.allErrors.invalidInsertObjectsArray)
+  //               thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //               db.close()
   //               cb(thisErrorDoc, null)
   //             }
@@ -267,7 +265,7 @@ module.exports = {
   //           collection.insertMany(toInsertArray, (insertErr, insertRes)=>{
   //             if(insertErr){
   //               Logger.error("An error occured in insertMany: " + ToString.toString(insertErr))
-  //               thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+  //               thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //               db.close()
   //               cb(thisErrorDoc, null)
   //             }
@@ -275,13 +273,13 @@ module.exports = {
   //               Logger.info("Return from insertMany operation: " + ToString.toString(insertRes))
   //               if(insertRes.insertedCount == 0){
   //                 Logger.error("insertedCount was 0, insert failed")
-  //                 thisErrorDoc.errors.push(Constants.allErrors.databaseInsertError)
+  //                 thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //                 db.close()
   //                 cb(thisErrorDoc, null)
   //               }
   //               else if(insertRes.insertedCount != toInsertArray.length){
   //                 Logger.error("InsertedCount was not equal to toInsertArray.length, one or more inserts failed (though some may have inserted successfully!!)")
-  //                 thisErrorDoc.errors.push(Constants.allErrors.databaseInsertError)
+  //                 thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //                 db.close()
   //                 cb(thisErrorDoc, null)
   //               }
@@ -302,7 +300,7 @@ module.exports = {
   //             }
   //             else {
   //               Logger.error("No insertRes was returned in insertMany")
-  //               thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+  //               thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //               db.close()
   //               cb(thisErrorDoc, null)
   //             }
@@ -321,8 +319,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
-      const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
           Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
@@ -377,8 +374,7 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
-      const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
           Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
@@ -398,7 +394,7 @@ module.exports = {
               collection.deleteOne({_id: mongoId}, (deleteErr, deleteRes)=>{
                 if(deleteErr){
                   Logger.error("An error occured in deleteOne: " + ToType.toString(deleteErr))
-                  thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+                  thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
                   db.close()
                   cb(thisErrorDoc, null)
                 }
@@ -409,13 +405,11 @@ module.exports = {
                   returnDoc.data.type = null
                   Logger.info("Full success for this deleteOne, doc to return: " + ToType.toString(returnDoc))
                   db.close()
-                  console.log("3")
-
                   cb(null, returnDoc);
                 }
                 else {
                   Logger.error("No deleteRes was returned from mongo in deleteOne")
-                  thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+                  thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
                   db.close()
                   cb(thisErrorDoc, null)
                 }
@@ -436,12 +430,11 @@ module.exports = {
   //   }
   //   else {
   //     let thisErrorDoc = Constants.newErrorDoc();
-  //     const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
-  //     const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  //     const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
   //     db.connect(dbErr => {
   //       if (dbErr){
   //         Logger.error('There was an error connecting to mongo error: '+ToString.toString(dbErr))
-  //         thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
+  //         thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //         db.close()
   //         cb(thisErrorDoc, null)
   //       }
@@ -449,7 +442,7 @@ module.exports = {
   //         let collection = db.db(Constants.dbName).collection(whichCollection);
   //         if(typeof deleteFilter !== 'object' || deleteFilter === null){
   //           Logger.error("The deleteFilter passed was not an object: " + ToString.toString(deleteFilter))
-  //           thisErrorDoc.errors.push(Constants.allErrors.invalidFilter)
+  //           thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //           db.close()
   //           cb(thisErrorDoc)
   //         }
@@ -458,7 +451,7 @@ module.exports = {
   //           collection.updateOne(deleteFilter, (deleteErr, deleteRes)=>{
   //             if(deleteErr){
   //               Logger.error("An error occured in updateOne: " + ToString.toString(deleteErr))
-  //               thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+  //               thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //               db.close()
   //               return thisErrorDoc
   //             }
@@ -473,7 +466,7 @@ module.exports = {
   //             }
   //             else {
   //               Logger.error("No deleteRes was returned from mongo in deleteMany")
-  //               thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+  //               thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
   //               db.close()
   //               cb(thisErrorDoc, null)
   //             }
@@ -492,12 +485,11 @@ module.exports = {
     }
     else {
       let thisErrorDoc = Constants.newErrorDoc();
-      const uri = "mongodb+srv://"+Constants.mongoUser+":"+Constants.mongoPass+"@"+Constants.mongoClusterName+".ksdgu.mongodb.net/"+Constants.dbName+"?retryWrites=true&w=majority";
-      const db = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
       db.connect(dbErr => {
         if (dbErr){
           Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
-          thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
+          thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
           db.close()
           cb(thisErrorDoc, null)
         }
@@ -506,7 +498,7 @@ module.exports = {
           collection.drop((dropErr, dropSuccess)=>{
             if(dropErr){
               Logger.error(dropErr)
-              thisErrorDoc.errors.push(Constants.allErrors.failedToDropCollection)
+              thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
               db.close()
               cb(thisErrorDoc, null)
             }

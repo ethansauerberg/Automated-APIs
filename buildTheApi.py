@@ -1,8 +1,8 @@
 # Necessary imports
 import shutil
 import os
-import sys
 import json
+import random
 
 # path
 path = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/'
@@ -20,6 +20,7 @@ replaceKeysDict = {
     "mongoUser": "<<mongoUser>>",
     "mongoPass": "<<mongoPass>>",
     "mongoClusterName": "<<mongoClusterName>>",
+    "mongoDatabaseName": "<<mongoDatabaseName>>",
     "otherCollections": "//<<otherCollections>>",
     "invalidInputMessage": "<<invalidInputMessage>>",
     "invalidEmailOrPasswordMessage": "<<invalidEmailOrPasswordMessage>>",
@@ -57,7 +58,6 @@ if not missingAKey:
     destination = shutil.copytree(src, dest)
 
 files = os.listdir("newAPICode")
-# print(files)
 
 def replaceAndRewrite(filesList, location):
     for item in filesList:

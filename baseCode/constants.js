@@ -42,8 +42,11 @@ passwordValidatorSchema
 const mongoClusterName = '<<mongoClusterName>>' //your mongodb cluster name
 const mongoUser = '<<mongoUser>>' //your mongodb cloud username
 const mongoPass = '<<mongoPass>>' //your mongodb cloud password
-const dbName = '<<mongoClusterName>>' //your mongodb cloud database name
+const mongoDbName = '<<mongoDatabaseName>>' //your mongodb cloud database name
 const usersCollection = 'users' //your mongodb users collection name
+const mongoUri = "mongodb+srv://" + mongoUser + ":" + mongoPass + "@" + mongoClusterName + ".gngty.mongodb.net/" + mongoDbName + "?retryWrites=true&w=majority"
+
+
 //<<otherCollections>> 
 
 
@@ -203,7 +206,8 @@ module.exports = {
   mongoClusterName: mongoClusterName,
   mongoUser: mongoUser,
   mongoPass: mongoPass,
-  dbName: dbName,
+  mongoDbName: mongoDbName,
+  mongoUri: mongoUri,
   usersCollection: usersCollection,
   //<<otherDbCollectionExports>>
 
