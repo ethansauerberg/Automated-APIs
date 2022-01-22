@@ -7,8 +7,8 @@
 *  Ethan Sauerberg
 *  All Rights Reserved.
 *
-* NOTICE:  All information contained herein is, and remains
-* the property of Ethan Sauerberg.  The intellectual and technical
+* NOTICE: All information contained herein is, and remains
+* the property of Ethan Sauerberg. The intellectual and technical
 * concepts contained herein are proprietary to Ethan Sauerberg
 * and may be covered by U.S. and Foreign Patents, patents in process,
 * and are protected by trade secret or copyright law.
@@ -20,7 +20,7 @@
 
 const Constants = require('../constants.js')
 const MongoIdCreator = require('./mongoIdCreator.js')
-const InputChecker = require('./objectCreator.js')
+const InputChecker = require('./inputChecker.js')
 const MongoOperations = require('./mongoOperations.js')
 const PasswordHash = require('password-hash'); //for hashing passwords
 const Logger = require('./customLog.js')
@@ -43,9 +43,7 @@ module.exports = {
       cb(inputError, null, null)
     }
     else {
-      MongoOperations.findOne({email: email}, Constants.usersDb, (findOneErrorDoc, findOneReturnDoc)=>{
-        Logger.error('2');
-
+      MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
         if(findOneErrorDoc){
           Logger.error("Error occurred in MongoOperations.findOne within verifyUser: " + ToType.toString(findOneErrorDoc))
           cb(findOneErrorDoc, null, null);
@@ -89,13 +87,19 @@ module.exports = {
       }
       else {
         Logger.info("Converted the id to a MongoDB _id object")
-        MongoOperations.findOne({email: email}, Constants.usersDb, (findOneErrorDoc, findOneReturnDoc)=>{
+        MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
           if(findOneErrorDoc){
+            if(findOneErrorDoc.errors[0].title ==  "Requested Resource(s) Did Not Exist"){
+              Logger.warn('No user found with the email passed.');
+              let thisErrorDoc = Constants.newErrorDoc();
+              thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
+              cb(thisErrorDoc, null, null)
+            }
             Logger.error("Error occurred in MongoOperations.findOne on user within verifyObjectOwner" + ToType.toString(findOneErrorDoc))
             cb(findOneErrorDoc, null, null);
           }
           else {
-            Logger.info("Found the user with email: " + email + ". Now verifiying password")
+            Logger.info("Found the user with email: " + email + ". Now verifying password")
             if (!PasswordHash.verify(password, findOneReturnDoc.data.attributes.password)){
               Logger.warn('User verification failed (password mismatch)');
               let thisErrorDoc = Constants.newErrorDoc();
@@ -149,7 +153,7 @@ module.exports = {
         thisErrorDoc.errors.push(Constants.allErrors.requestedResourceAccessDenied)
         cb(thisErrorDoc)
       }
-      MongoOperations.findOne({email: email}, Constants.usersDb, (findOneErrorDoc, findOneReturnDoc)=>{
+      MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
         if(findOneErrorDoc){
           Logger.error("Error occurred in MongoOperations.findOne within verifyAdmin" + ToType.toString(findOneErrorDoc))
           cb(findOneErrorDoc);
@@ -190,7 +194,7 @@ module.exports = {
   //       thisErrorDoc.errors.push(Constants.allErrors.invalidAccountLevelPassed)
   //       cb(thisErrorDoc, null)
   //     }
-  //     MongoOperations.findOne({email: email}, Constants.usersDb, (findOneErrorDoc, findOneReturnDoc)=>{
+  //     MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
   //       if(findOneErrorDoc){
   //         Logger.error("Error occurred in MongoOperations.findOne within verifyAccountLevel" + ToType.toString(findOneErrorDoc))
   //         cb(findOneErrorDoc);

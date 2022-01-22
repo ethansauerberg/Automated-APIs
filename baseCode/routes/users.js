@@ -7,8 +7,8 @@
 *  Ethan Sauerberg
 *  All Rights Reserved.
 *
-* NOTICE:  All information contained herein is, and remains
-* the property of Ethan Sauerberg.  The intellectual and technical
+* NOTICE: All information contained herein is, and remains
+* the property of Ethan Sauerberg. The intellectual and technical
 * concepts contained herein are proprietary to Ethan Sauerberg
 * and may be covered by U.S. and Foreign Patents, patents in process,
 * and are protected by trade secret or copyright law.
@@ -21,7 +21,7 @@
 module.exports=(router, app)=>{
     const constants = require('../constants.js')
     const MongoOperations = require('../tools/mongoOperations.js')
-    const InputChecker = require('../tools/objectCreator.js')
+    const InputChecker = require('../tools/inputChecker.js')
     const Authorizer = require('../tools/authorizer.js')
     const ToType = require('../tools/toType.js')
     const PasswordHash = require('password-hash'); //for hasing passwords
@@ -34,7 +34,7 @@ module.exports=(router, app)=>{
     //parameters:
       //req.body.email (new user's email)
       //req.body.password (new user's password in plain text, which will be hashed by password-hash)
-    router.post('/v1/users', (req,res)=>{
+    router.post('/<<version>>/users', (req,res)=>{
       let {email, password} = req.body
       Logger.info("\n\nAt the top of POST/users with: " + ToType.toString({email: email, password: password}))
       let inputErrorDoc = InputChecker.checkInputsExist([email, password])
@@ -46,14 +46,14 @@ module.exports=(router, app)=>{
         if(!EmailValidator.validate(email)){
           Logger.warn("Email failed to pass email validator")
           let thisErrorDoc = constants.newErrorDoc();
-          thisErrorDoc.errors.push(constants.allErrors.invalidEmailOrPassword)
+          thisErrorDoc.errors.push(constants.allErrors.invalidEmail)
           res.send(thisErrorDoc)
           return;
         }
         if(constants.validatePassword(password) == false){
           Logger.warn("Password failed to pass password validator")
           let thisErrorDoc = constants.newErrorDoc();
-          thisErrorDoc.errors.push(constants.allErrors.invalidEmailOrPassword)
+          thisErrorDoc.errors.push(constants.allErrors.invalidPassword)
           res.send(thisErrorDoc)
           return;
         }
@@ -99,8 +99,8 @@ module.exports=(router, app)=>{
     //gets a user
     //parameters:
       //req.params.email (the user’s email)
-         //req.query.password (the user's password)
-    router.get('/v1/users/:email', (req, res)=>{
+      //req.query.password (the user's password)
+    router.get('/<<version>>/users/:email', (req, res)=>{
       let {email} = req.params
       let {password} = req.query
       Logger.info("\n\nAt the top of GET/users/:email with with: " + ToType.toString({email: email, password: password}))
@@ -115,7 +115,6 @@ module.exports=(router, app)=>{
           return;
         }
       })
-  
     })
   
     // //edits a user
@@ -123,7 +122,7 @@ module.exports=(router, app)=>{
     // //req.params.email (the user’s email)
     // //req.query.password (the user's password)
     //   //req.body.toUpdate - fields of the user to be updated
-    // router.put('/v1/users/:email', (req, res)=>{
+    // router.put('/<<version>>/users/:email', (req, res)=>{
     //   let {email} = req.params
     //   let {password, toUpdate} = req.body
     //   Logger.info("\n\nAt the top of PUT/users:email with: " + ToType.toString({email: email, password: password, toUpdate: toUpdate}))
@@ -150,8 +149,8 @@ module.exports=(router, app)=>{
     //deletes a user
     //parameters:
       //req.params.email (the user’s email)
-         //req.query.password (new user's password)
-    router.delete('/v1/users/:email', (req, res)=>{
+      //req.query.password (the user's password)
+    router.delete('/<<version>>/users/:email', (req, res)=>{
       let {email} = req.params
       let {password} = req.query
       Logger.info("\n\nAt the top of DELETE/users:email with: " + ToType.toString({email: email, password: password}))
@@ -161,7 +160,6 @@ module.exports=(router, app)=>{
           return;
         }
         else {
-          console.log(verifyId + " first");
           MongoOperations.deleteOne(verifyId, constants.usersCollection, (deleteOneErrorDoc, deleteOneReturnDoc)=>{
             if(deleteOneErrorDoc !== null){
               res.send(deleteOneErrorDoc)

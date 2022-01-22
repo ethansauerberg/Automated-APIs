@@ -7,8 +7,8 @@
 *  Ethan Sauerberg
 *  All Rights Reserved.
 *
-* NOTICE:  All information contained herein is, and remains
-* the property of Ethan Sauerberg.  The intellectual and technical
+* NOTICE: All information contained herein is, and remains
+* the property of Ethan Sauerberg. The intellectual and technical
 * concepts contained herein are proprietary to Ethan Sauerberg
 * and may be covered by U.S. and Foreign Patents, patents in process,
 * and are protected by trade secret or copyright law.
@@ -34,7 +34,7 @@ module.exports = {
     else{
       Logger.error("An unknown error occurred with Mongo's ObjectId's ObjectId(filter) function")
       let thisErrorDoc = Constants.newErrorDoc();
-      thisErrorDoc.errors.push(Constants.allErrors.invalidIdFilter)
+      thisErrorDoc.errors.push(Constants.allErrors.invalidMongoId)
       cb(thisErrorDoc, null);
     }
   }

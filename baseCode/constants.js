@@ -7,8 +7,8 @@
 *  Ethan Sauerberg
 *  All Rights Reserved.
 *
-* NOTICE:  All information contained herein is, and remains
-* the property of Ethan Sauerberg.  The intellectual and technical
+* NOTICE: All information contained herein is, and remains
+* the property of Ethan Sauerberg. The intellectual and technical
 * concepts contained herein are proprietary to Ethan Sauerberg
 * and may be covered by U.S. and Foreign Patents, patents in process,
 * and are protected by trade secret or copyright law.
@@ -99,7 +99,7 @@ const allErrors = { //all of the errors that we may return from our API
       link: "<<siteDocsUrl>>"
     },
     status: 400,
-    title: "RequestedResourceAccessDenied",
+    title: "Requested Resource Access Denied",
     detail: "<<requestedResourceAccessDeniedMessage>>"
   },
   internalServerError: {
@@ -108,9 +108,36 @@ const allErrors = { //all of the errors that we may return from our API
       link: "<<siteDocsUrl>>"
     },
     status: 500,
-    title: "InternalServerError",
+    title: "Internal Server Error",
     detail: "<<internalServerErrorMessage>>"
   },
+  invalidEmail: {
+    id: 7,
+    links: {
+      link: "<<siteDocsUrl>>"
+    },
+    status: 500,
+    title: "Invalid Email",
+    detail: "<<invalidEmailMessage>>"
+  },
+  invalidPassword: {
+    id: 8,
+    links: {
+      link: "<<siteDocsUrl>>"
+    },
+    status: 500,
+    title: "Invalid Password",
+    detail: "<<invalidPasswordMessage>>"
+  },
+  invalidMongoId: {
+    id: 9, 
+    links: {
+      link: "<<siteDocsUrl>>"
+    },
+    status: 400,
+    title: "Invalid Mongo Id",
+    detail: "<<invalidMongoIdMessage>>"
+  }
   
 }
 

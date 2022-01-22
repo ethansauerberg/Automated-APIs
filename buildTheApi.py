@@ -13,6 +13,7 @@ dest = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/newAPICode'
 
 # Keys of things to replace
 replaceKeysDict = {
+    "version": "<<version>>",
     "url": "<<siteUrl>>",
     "docsUrl": "<<siteDocsUrl>>",
     "adminEmail": "<<adminEmail>>",
@@ -24,8 +25,11 @@ replaceKeysDict = {
     "invalidEmailOrPasswordMessage": "<<invalidEmailOrPasswordMessage>>",
     "emailTakenMessage": "<<emailTakenMessage>>",
     "requestedResourcesDidNotExistMessage": "<<requestedResourcesDidNotExistMessage>>",
-    "requestedResourceAccessDenied": "<<requestedResourceAccessDenied",
+    "requestedResourceAccessDenied": "<<requestedResourceAccessDeniedMessage>>",
     "internalServerErrorMessage": "<<internalServerErrorMessage>>",
+    "invalidEmailMessage": "<<invalidEmailMessage>>",
+    "invalidPasswordMessage": "<<invalidPasswordMessage>>",
+    "invalidMongoIdMessage": "<<invalidMongoIdMessage>>",
     "author": "<<author>>",
     "otherDbCollectionExports": "<<otherDbCollectionExports>>",
     "fields": "//<<fields>>",

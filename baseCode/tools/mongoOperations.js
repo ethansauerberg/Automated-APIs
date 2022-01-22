@@ -7,8 +7,8 @@
 *  Ethan Sauerberg
 *  All Rights Reserved.
 *
-* NOTICE:  All information contained herein is, and remains
-* the property of Ethan Sauerberg.  The intellectual and technical
+* NOTICE: All information contained herein is, and remains
+* the property of Ethan Sauerberg. The intellectual and technical
 * concepts contained herein are proprietary to Ethan Sauerberg
 * and may be covered by U.S. and Foreign Patents, patents in process,
 * and are protected by trade secret or copyright law.
@@ -20,7 +20,7 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const Constants = require('../constants.js')
-const InputChecker = require('./objectCreator.js')
+const InputChecker = require('./inputChecker.js')
 const MongoIdCreator = require('./mongoIdCreator.js')
 const ToType = require('./toType.js')
 const Logger = require('./customLog.js')
@@ -39,7 +39,7 @@ module.exports = {
       db.connect(dbErr => {
         if (dbErr){
           Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
-          thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
+          thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
           db.close()
           cb(thisErrorDoc, null)
         }
@@ -47,7 +47,7 @@ module.exports = {
           let collection = db.db(Constants.dbName).collection(whichCollection);
           if(typeof findFilter !== 'object' || findFilter === null){
             Logger.error("The findFilter passed was not an object: " + ToType.toString(findFilter))
-            thisErrorDoc.errors.push(Constants.allErrors.invalidFilter)
+            thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
             db.close()
             cb(thisErrorDoc, null)
           }
@@ -56,7 +56,7 @@ module.exports = {
             collection.findOne(findFilter, (findErr, findRes)=>{
               if(findErr){
                 Logger.error("An error occured in findOne: " + ToType.toString(findErr))
-                thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+                thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
                 db.close()
                 cb(thisErrorDoc, null)
               }
@@ -66,9 +66,7 @@ module.exports = {
                 returnDoc.data.type = whichCollection;
                 returnDoc.data.id = findRes._id;
                 Logger.info("Full success for this findOne, doc to return: " + ToType.toString(returnDoc))
-                Logger.error('A');
                 db.close()
-                Logger.error('B');
                 cb(null, returnDoc);
               }
               else {
@@ -384,7 +382,7 @@ module.exports = {
       db.connect(dbErr => {
         if (dbErr){
           Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
-          thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
+          thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
           db.close()
           cb(thisErrorDoc, null)
         }

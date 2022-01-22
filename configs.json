@@ -1,5 +1,6 @@
 {
     "replacers": {
+        "version": "",
         "url": "",
         "docsUrl": "",
         "adminEmail": "",
@@ -13,6 +14,8 @@
         "requestedResourceAccessDenied": "",
         "requestedResourcesDidNotExistMessage": "",
         "internalServerErrorMessage": "",
+        "invalidEmailMessage": "",
+        "invalidPasswordMessage": "",
         "author": "",
         "otherDbCollectionExports": "",
         "fields": "",

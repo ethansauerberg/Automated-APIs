@@ -1,5 +1,6 @@
 {
     "replacers":{
+        "version": "v1",
         "url": "localhost:2000",
         "docsUrl": "localhost:2000",
         "adminEmail": "ethansauerberg@gmail.com",
@@ -16,9 +17,12 @@
         "author": "Frank Bobson",
         "otherDbCollectionExports": "objectsCollection: objectsCollection,",
         "fields": "const objectFields = [\n {name: 'field1', type: 'string', required: true}, \n {name: 'field2', type: 'boolean', required: true}, \n {name: 'field3', type: 'number', required: false}, \n]",
-        "routesImportLines": "require('./routes/objects.js')(router, app) //CRUD routes for objects"
+        "routesImportLines": "require('./routes/objects.js')(router, app) //CRUD routes for objects",
+        "invalidEmailMessage": "The email passed did not pass our email verifier. Please ensure your email address fits the format ______@____.___ and contains no additional special characters.",
+        "invalidPasswordMessage": "Your password did not pass our password verifier. Passwords must be 8-100 non-space characters and have one or more of each: uppercase letters, lowercase letters, digits, symbols.",
+        "invalidMongoIdMessage": "The MongoDB ID passed was invalid. Please ensure it fits standard MongoDB ID format."
     },
     "objects": [
-        "object"
+        "testObject"
     ]
 }
