@@ -18,14 +18,17 @@
 <h3 align="center">Auto API</h3>
 
   <p align="center">
-    unlimited, free (Node.js/Express.js/MongoDB) API's with custom user-defined types
-    <br>
-    <br>
+    Unlimited, free (Node.js/Express.js/MongoDB) API's with custom user-defined types.
+    <br><br>
     This project is still in progress, but (my school workload permitting) I'm hoping to finish soon!
-    <br>
+    <br><br>
     I will eventually put this up on my person website with a full guide including usage, hosting for free on AWS, setting up a free MongoDB database, etc :)
 
-    <!-- <br />
+  
+  </p>
+</div>
+
+  <!-- <br />
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
     <br />
@@ -34,13 +37,10 @@
     <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
     ·
     <a href="https://github.com/github_username/repo_name/issues">Request Feature</a> -->
-  </p>
-</div>
-
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
+<!-- <details>
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -63,18 +63,18 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
-</details>
+</details> -->
 
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description`
+<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description` -->
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<!-- <p align="right">(<a href="#top">back to top</a>)</p> -->
 
 
 
