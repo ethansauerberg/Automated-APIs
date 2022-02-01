@@ -30,7 +30,7 @@ module.exports=(router, app)=>{
   
   
   
-    //inserts a new user (this is our register route)
+    //inserts a new user (register)
     //parameters:
       //req.body.email (new user's email)
       //req.body.password (new user's password in plain text, which will be hashed by password-hash)
@@ -102,7 +102,6 @@ module.exports=(router, app)=>{
       let {email} = req.params
       let {password} = req.query
       Logger.info("\n\nAt the top of GET/users/:email with with: " + ToType.toString({email: email, password: password}))
-      console.log(email, password)
       Authorizer.verifyUser(email, password, (verifyErrorDoc, verifyUserDoc, verifyId)=>{
         if(verifyErrorDoc !== null){
           res.send(verifyErrorDoc)
@@ -150,7 +149,7 @@ module.exports=(router, app)=>{
       //req.query.password (the user's password)
     router.delete('/<<version>>/users/:email', (req, res)=>{
       let {email} = req.params
-      let {password} = req.query
+      let {password} = req.body
       Logger.info("\n\nAt the top of DELETE/users:email with: " + ToType.toString({email: email, password: password}))
       Authorizer.verifyUser(email, password, (verifyErrorDoc, verifyUserDoc, verifyId)=>{
         if(verifyErrorDoc !== null){

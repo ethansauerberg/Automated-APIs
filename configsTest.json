@@ -24,6 +24,20 @@
         "invalidMongoIdMessage": "The MongoDB ID passed was invalid. Please ensure it fits standard MongoDB ID format."
     },
     "objects": [
-        "testObject"
+        {
+            "name": "testObject",
+            "getsRoutes": true,
+            "code": "testObjectFields = [\n{'name': 'field1', 'type': 'string', 'required': true},\n{'name': 'field2', 'type': 'number', 'required': false},\n{'name': 'field3', 'type': 'boolean', 'required': true},\n{'name': 'field4', 'type': 'array', 'required': true, 'nestedType': 'number'},\n{'name': 'field5', 'type': 'array', 'required': true, 'nestedType': 'object', 'nestedFields': nestedTestObjectFields},"
+        },
+        {
+            "name": "nestedTestObject",
+            "getsRoutes": false,
+            "code": "nestedTestObjectFields = [\n{'name': 'nestedField1', 'type': 'string', 'required': true},\n{'name': 'nestedField2', 'type': 'number', 'required': true},\n{'name': 'nestedField3', 'type': 'boolean', 'required': false},\n{'name': 'field4', 'type': 'object', 'required': true, 'nestedType': 'object', 'nestedFields': doubleNestedTestObjectFields},"
+        },
+        {
+            "name": "doubleNestedTestObject",
+            "getsRoutes": false,
+            "code": "doubleNestedTestObjectFields = [\n{'name': 'doubleNestedField1', 'type': 'string', 'required': true}]"
+        }
     ]
 }

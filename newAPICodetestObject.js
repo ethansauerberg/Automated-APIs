@@ -27,51 +27,43 @@ module.exports=(router, app)=>{
     const Authorizer = require('../tools/authorizer.js')
     const ToType = require('../tools/toType.js')
     const Logger = require('../tools/customLog.js')
-    const ObjectCreator = require('../tools/objectCreator.js')
 
 
-    //inserts a new <<object>>
+
+    //inserts a new testObject
     //parameters:
         //req.body.email (user's email)
         //req.body.password (user's password)
-        //req.body.<<object>> (the <<object>> to add to the <<object>>s database)
-    router.post('/<<version>>/<<object>>s', (req,res)=>{
-        let {email, password, <<object>>} = req.body
-        Logger.info("\n\nAt the top of POST/<<object>>s with: " + ToType.toString({email: email, password: password, <<object>>: <<object>>}))
-        let inputErrorDoc = InputChecker.checkInputsExist([email, password, <<object>>])
-        if(inputErrorDoc !== null){
-            res.send(inputErrorDoc)
-            return;
-        }
-        else {
-            Authorizer.verifyUser(email, password, (verifyUserError, verifyUserDoc, verifyUserId)=>{
-                if(verifyUserError !== null){
-                    res.send(verifyUserError)
-                    return;
-                }
-                else {
-                    ObjectCreator.createNewObject(<<object>>, Constants.<<object>>Fields, (createErrorDoc, createdObject)=>{
-                        if(createErrorDoc !== null){
-                            res.send(createErrorDoc)
-                            return;
-                        }
-                        else {
-                            createdObject["owner"] = email
-                            MongoOperations.insertOne(<<object>>, Constants.<<object>>sCollection, (insertErrorDoc, insertReturnDoc)=>{
-                                if(insertErrorDoc !== null){
-                                    res.send(insertErrorDoc)
-                                    return;
-                                }
-                                else {
-                                    res.send(insertReturnDoc)
-                                    return;
-                                }
-                            })
-                        }
-                    })              
-                }
-            })
-        }
+        //req.body.testObject (the testObject to add to the testObjects database)
+    router.post('/<<version>>/testObjects', (req,res)=>{
+      let {email, password, testObject} = req.body
+      Logger.info("\n\nAt the top of POST/testObjects with: " + ToType.toString({email: email, password: password, testObject: testObject}))
+      let inputErrorDoc = InputChecker.checkInputsExist([email, password, testObject])
+      if(inputErrorDoc !== null){
+        res.send(inputErrorDoc)
+        return;
+      }
+      else {
+        Authorizer.verifyUser(email, password, (verifyUserError, verifyUserDoc, verifyUserId)=>{
+            if(verifyUserError !== null){
+                res.send(verifyUserError)
+                return;
+            }
+            else {
+                testObject["owner"] = email
+                MongoOperations.insertOne(testObject, Constants.testObjectsCollection, (insertErrorDoc, insertReturnDoc)=>{
+                    if(insertErrorDoc !== null){
+                        res.send(insertErrorDoc)
+                        return;
+                    }
+                    else {
+                        res.send(insertReturnDoc)
+                        return;
+                    }
+                })
+            }
+        })
+      }
     })
 
     // //gets a user

@@ -3,6 +3,7 @@ from random import random
 import requests
 import json 
 import random
+import time
 
 def randomEmail():
     emailChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -86,15 +87,26 @@ def recursiveSearch(query, input):
     else:
         return query in str(input)
 
+def hasErrors(query):
+    if hasattr(query, "errors"):
+        return True
+    else:
+        return False
+
 def runTests(tests):
     print("Test results:\n")
     for test in tests: 
         requestReturn = sendRequest(test["testType"], test["testUrl"], test["testData"])
-        if recursiveSearch(test["expectedString"], requestReturn):
+        # if recursiveSearch(test["expectedString"], requestReturn):
+        if not hasErrors(requestReturn):
             print(test["testName"] + "success")
+            # print("\t" + str(requestReturn) + "\n")
+
         else:
             print(test["testName"] + "FAILURE")
             print("\t" + str(requestReturn) + "\n")
+        time.sleep(2)
+
 
 
 
@@ -117,13 +129,14 @@ configsFile.close()
 url = "http://" + configs["url"]
 
 usersTests = [
-    # {"testName": "POST /users good: ", "expectedString": testEmail, "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
-    # {"testName": "POST /users emailTaken: ", "expectedString": "Email Taken", "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
-    # {"testName": "GET /users good: ", "expectedString": testEmail, "testType": get, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
-    {"testName": "DELETE /users good: ", "expectedString": testEmail, "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
+    {"testName": "POST /users good: ", "expectedString": "insertedId", "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
+    {"testName": "POST /users emailTaken: ", "expectedString": "Email Taken", "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
+    {"testName": "GET /users good: ", "expectedString": testEmail, "testType": get, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
+    {"testName": "DELETE /users good: ", "expectedString": "deletedCount", "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
 ]
 
 runTests(usersTests)
+
  
 # users.js:
 # post user: one bad email (invalidEmail), one bad password (invalidPassword), one email that already exists (emailTaken), one good (returns user)

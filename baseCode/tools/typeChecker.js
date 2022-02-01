@@ -18,20 +18,21 @@
 *
 *************************************************************************/
 let types = ["string", "number", "boolean", "array", "object"]
+const Constants = require('../tools/constants.js')
 const Logger = require('../tools/customLog.js')
 
 module.exports = {
   checkType: function checkType(input, type){
     if(input === null || input === undefined){
       Logger.error('Missing input typeChecker.checkType');
-      let thisErrorDoc = constants.newErrorDoc();
-      thisErrorDoc.errors.push(constants.allErrors.missingInput)
+      let thisErrorDoc = Constants.newErrorDoc();
+      thisErrorDoc.errors.push(Constants.allErrors.invalidInput)
       return thisErrorDoc;
     }
     if(!types.contains(type)){
       Logger.error('Bad type input in typeChecker.checkType');
       let thisErrorDoc = constants.newErrorDoc();
-      thisErrorDoc.errors.push(constants.allErrors.invalidTypeCheckerType)
+      thisErrorDoc.errors.push(constants.allErrors.internalServerError)
       return thisErrorDoc;
     }
     else {
