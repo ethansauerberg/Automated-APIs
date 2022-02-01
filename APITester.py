@@ -45,6 +45,23 @@ def randomPassword():
     print("random password generated: " + password)
     return password
 
+def randomString():
+    stringChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%^&*()|:>?,/'[]~`"
+    toReturn = ""
+    length = random.randint(1, 15)
+    while len(toReturn) < length:
+        toReturn += stringChars[random.randint(0, len(stringChars) - 1)]
+    return toReturn
+
+def randomNumber():
+    if(random.random() > 0.5):
+        return random.random()*100
+    else:
+        return random.int(0, 100)
+
+def randomBoolean():
+    return random.random() > 0.5
+
 def sendRequest(type, fullUrl, data):
     try:
         if type == "post":
@@ -98,10 +115,9 @@ def runTests(tests):
     for test in tests: 
         requestReturn = sendRequest(test["testType"], test["testUrl"], test["testData"])
         # if recursiveSearch(test["expectedString"], requestReturn):
-        if not hasErrors(requestReturn):
+        if hasErrors(requestReturn) != test["shouldSucceed"]:
             print(test["testName"] + "success")
             # print("\t" + str(requestReturn) + "\n")
-
         else:
             print(test["testName"] + "FAILURE")
             print("\t" + str(requestReturn) + "\n")
@@ -123,21 +139,32 @@ testPassword = "123ASFasd!@#"
 
 configsFile = open('configsTest.json')
 configs = json.load(configsFile)
+objects = configs["objects"]
 configs = configs["replacers"]
 configsFile.close()
 
 url = "http://" + configs["url"]
 
+# usersTests = [
+#     {"testName": "POST /users good: ", "expectedString": "insertedId", "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
+#     {"testName": "POST /users emailTaken: ", "expectedString": "Email Taken", "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
+#     {"testName": "GET /users good: ", "expectedString": testEmail, "testType": get, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
+#     {"testName": "DELETE /users good: ", "expectedString": "deletedCount", "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
+# ]
 usersTests = [
-    {"testName": "POST /users good: ", "expectedString": "insertedId", "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
-    {"testName": "POST /users emailTaken: ", "expectedString": "Email Taken", "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
-    {"testName": "GET /users good: ", "expectedString": testEmail, "testType": get, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
-    {"testName": "DELETE /users good: ", "expectedString": "deletedCount", "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
+    {"testName": "POST /users good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
+    {"testName": "POST /users emailTaken: ", "shouldSucceed": False, "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
+    {"testName": "GET /users good: ", "shouldSucceed": True, "testType": get, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
+    {"testName": "DELETE /users good: ", "shouldSucceed": True, "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
 ]
-
 runTests(usersTests)
 
- 
+objectsTest = [
+    {"testName": "POST /testObjects good: ", "testType": post, "testUrl": url + "/" + configs["verions"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": randomString(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}}
+]
+
+
+
 # users.js:
 # post user: one bad email (invalidEmail), one bad password (invalidPassword), one email that already exists (emailTaken), one good (returns user)
 # get user: one no results found (requestedResourceDidNotExist), one bad password (invalidEmailOrPassword), one bad ID (invalidMongoId), one good (returns user)

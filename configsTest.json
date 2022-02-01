@@ -25,19 +25,24 @@
     },
     "objects": [
         {
-            "name": "testObject",
-            "getsRoutes": true,
-            "code": "testObjectFields = [\n{'name': 'field1', 'type': 'string', 'required': true},\n{'name': 'field2', 'type': 'number', 'required': false},\n{'name': 'field3', 'type': 'boolean', 'required': true},\n{'name': 'field4', 'type': 'array', 'required': true, 'nestedType': 'number'},\n{'name': 'field5', 'type': 'array', 'required': true, 'nestedType': 'object', 'nestedFields': nestedTestObjectFields},"
+            "name": "doubleNestedTestObject",
+            "getsRoutes": false,
+            "code": "doubleNestedTestObjectFields = [\n\t{'name': 'doubleNestedField1', 'type': 'string', 'required': true}\n]"
         },
         {
             "name": "nestedTestObject",
             "getsRoutes": false,
-            "code": "nestedTestObjectFields = [\n{'name': 'nestedField1', 'type': 'string', 'required': true},\n{'name': 'nestedField2', 'type': 'number', 'required': true},\n{'name': 'nestedField3', 'type': 'boolean', 'required': false},\n{'name': 'field4', 'type': 'object', 'required': true, 'nestedType': 'object', 'nestedFields': doubleNestedTestObjectFields},"
+            "code": "nestedTestObjectFields = [\n\t{'name': 'nestedField1', 'type': 'string', 'required': true},\n\t{'name': 'nestedField2', 'type': 'number', 'required': true},\n\t{'name': 'nestedField3', 'type': 'boolean', 'required': false},\n\t{'name': 'nestedField4', 'type': 'object', 'required': true, 'nestedType': 'object', 'nestedFields': doubleNestedTestObjectFields},\n]"
         },
         {
-            "name": "doubleNestedTestObject",
-            "getsRoutes": false,
-            "code": "doubleNestedTestObjectFields = [\n{'name': 'doubleNestedField1', 'type': 'string', 'required': true}]"
+            "name": "testObject",
+            "getsRoutes": true,
+            "code": "testObjectFields = [\n\t{'name': 'field1', 'type': 'string', 'required': true},\n\t{'name': 'field2', 'type': 'number', 'required': false},\n\t{'name': 'field3', 'type': 'boolean', 'required': true},\n\t{'name': 'field4', 'type': 'array', 'required': true, 'nestedType': 'number'},\n\t{'name': 'field5', 'type': 'array', 'required': true, 'nestedType': 'object', 'nestedFields': nestedTestObjectFields},\n]"
+        },        
+        {
+            "name": "testObject2",
+            "getsRoutes": true,
+            "code": "testObject2Fields = [\n\t{'name': 'fieldA', 'type': 'string', 'required': false}\n]"
         }
     ]
 }

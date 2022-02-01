@@ -104,7 +104,9 @@ for item in objectsArr:
         fileName = item["name"] + ".js"
         # shutil.copy(src + "/routes/objects.js", dest + "/routes/" + fileName)
         replaceAndRewriteObjectsJs(fileName, dest, item["name"])
-
+    if(item["name"] == "objects"):
+        print("ERROR: Invalid object name (object named objects).")
+os.remove(dest + "/routes/objects.js")
 
 
 
