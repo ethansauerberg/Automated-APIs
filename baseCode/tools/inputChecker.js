@@ -25,19 +25,22 @@ module.exports = {
   //checks that all inputs aren't null, undefined, or the empty string
   //if any input is null, returns missingInput error document. Else, returns null
   checkInputsExist: (arrayOfInputs)=>{
+    Logger.info("At top of checkInputsExist with: " + ToType.toString(arrayOfInputs));
     if(Array.isArray(arrayOfInputs)){
       return checkInputsExist(arrayOfInputs)
     }
     else {
       return isNullUndefinedOrEmpty(arrayOfInputs)
     }
-  }
+  },
+
+  isNullUndefinedOrEmpty: (input)=>{return isNullUndefinedOrEmpty(input)}
 } 
 
 
 function isNullUndefinedOrEmpty(input){
   if(input === null || input === undefined || input === ""){
-    Logger.warn("One or more of the required inputs was missing. Inputs: " + ToType.toString(input))
+    Logger.warn("True in isNullUndefinedOrEmpty. Input: " + ToType.toString(input))
     let thisErrorDoc = Constants.newErrorDoc();
     thisErrorDoc.errors.push(Constants.allErrors.missingInput)
     return thisErrorDoc;
@@ -59,7 +62,7 @@ function checkInputsExist(arrayOfInputs){
     return null;
   }
   else {
-    Logger.warn("One or more of the required inputs was missing. Inputs: " + ToType.toString(arrayOfInputs))
+    Logger.warn("One or more of the required inputs was missing in checkInuts... Inputs: " + ToType.toString(arrayOfInputs))
     let thisErrorDoc = Constants.newErrorDoc();
     thisErrorDoc.errors.push(Constants.allErrors.missingInput)
     return thisErrorDoc;

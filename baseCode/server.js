@@ -62,7 +62,7 @@ app.engine('html', require('ejs').renderFile);
 
 
 //add dependencies to express app
-app.use(cookieParser("lol my secret $c5%ookie parser 0nu@mber thingy 12038!@"));
+// app.use(cookieParser("asdfasdfasdfqwerqwerqwer"));
 
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb'}));

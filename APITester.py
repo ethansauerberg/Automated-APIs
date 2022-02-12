@@ -46,7 +46,7 @@ def randomPassword():
     return password
 
 def randomString():
-    stringChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%^&*()|:>?,/'[]~`"
+    stringChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890" ##!$%^&*()|:>?,/'[]~`"
     toReturn = ""
     length = random.randint(1, 15)
     while len(toReturn) < length:
@@ -57,7 +57,7 @@ def randomNumber():
     if(random.random() > 0.5):
         return random.random()*100
     else:
-        return random.int(0, 100)
+        return random.randint(0, 100)
 
 def randomBoolean():
     return random.random() > 0.5
@@ -65,7 +65,9 @@ def randomBoolean():
 def sendRequest(type, fullUrl, data):
     try:
         if type == "post":
-            postResponse = requests.post(fullUrl, data = data, headers = {})
+            print("data in sendRequest:")
+            print(data)
+            postResponse = requests.post(fullUrl, data = json.dumps(data), headers = {'Content-type': 'application/json'})
             postResponse.raise_for_status()
             responseJson = postResponse.json()
             return responseJson
@@ -105,22 +107,25 @@ def recursiveSearch(query, input):
         return query in str(input)
 
 def hasErrors(query):
-    if hasattr(query, "errors"):
+    if "errors" in query:
         return True
     else:
         return False
 
 def runTests(tests):
-    print("Test results:\n")
     for test in tests: 
+        print(f"sending {test['testType']} to {test['testUrl']} with {test['testData']}")
+        print("Test results:\n")
         requestReturn = sendRequest(test["testType"], test["testUrl"], test["testData"])
-        # if recursiveSearch(test["expectedString"], requestReturn):
-        if hasErrors(requestReturn) != test["shouldSucceed"]:
-            print(test["testName"] + "success")
-            # print("\t" + str(requestReturn) + "\n")
-        else:
-            print(test["testName"] + "FAILURE")
-            print("\t" + str(requestReturn) + "\n")
+        if(requestReturn):
+            if test["shouldSucceed"] != hasErrors(requestReturn):
+                print(test["testName"] + "success")
+                print("\t" + str(requestReturn) + "\n")
+            else:
+                print(test["testName"] + "FAILURE")
+                print("\t" + str(requestReturn) + "\n")
+        else: 
+            print(f"No request return. RequestReturn: {requestReturn}")
         time.sleep(2)
 
 
@@ -157,12 +162,15 @@ usersTests = [
     {"testName": "GET /users good: ", "shouldSucceed": True, "testType": get, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
     {"testName": "DELETE /users good: ", "shouldSucceed": True, "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
 ]
-runTests(usersTests)
+# runTests(usersTests)
 
 objectsTest = [
-    {"testName": "POST /testObjects good: ", "testType": post, "testUrl": url + "/" + configs["verions"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": randomString(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}}
+   {"testName": "POST /testObjects good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": randomString(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}}
+    # {"testName": "POST /testObjects good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": "hi", "field3": True, "field4": [1, 2, 3], "field5": [{"nestedField1": "hi", "nestedField2": 5, "nestedField4": {"doubleNestedField1": "hi"}}]}}}
+
 ]
 
+runTests(objectsTest)
 
 
 # users.js:

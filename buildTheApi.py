@@ -34,8 +34,9 @@ replaceKeysDict = {
     "invalidPasswordMessage": "<<invalidPasswordMessage>>",
     "invalidMongoIdMessage": "<<invalidMongoIdMessage>>",
     "author": "<<author>>",
-    "otherDbCollectionExports": "<<otherDbCollectionExports>>",
-    "fields": "//<<fields>>",
+    "otherDbCollectionExports": "//<<otherDbCollectionExports>>",
+    "fieldsExports": "//<<objectExports>>",
+    "fields": "//<<objectFields>>",
     "routesImportLines": "//<<routesImportLines>>",
 }
 
@@ -85,14 +86,17 @@ if not missingAKey:
     destination = shutil.copytree(src, dest)
 
 # combining the code lines for each object into one string to put in replacers
+toPutInFieldsExports = ""
 toPutInFields = ""
 toPutInRoutesImportLines = ""
 for item in objectsArr:
+    toPutInFieldsExports += item["name"] + "Fields : " + item["name"] + "Fields, \n\t"
     toPutInFields += item["code"] + "\n\n"
     if item["getsRoutes"]:
         toPutInRoutesImportLines += "require('./routes/" + item["name"] + ".js')(router, app) //CRUD routes for " + item["name"] + "s"
 replacers["fields"] = toPutInFields
 replacers["routesImportLines"] = toPutInRoutesImportLines
+replacers["fieldsExports"] = toPutInFieldsExports
 
 # find and replace the <<__>> with the proper replacers
 files = os.listdir("newAPICode")
