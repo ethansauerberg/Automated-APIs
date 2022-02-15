@@ -3,6 +3,7 @@ from array import array
 import shutil
 import os
 import json
+from tkinter import N
 
 # # path
 path = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/'
@@ -82,24 +83,37 @@ for key in replaceKeysDict:
 
 
 if not missingAKey:
+    newDest = dest
+    count = 0
+    while os.path.isdir(newDest):
+        count = count + 1
+        newDest = dest + str(count)
+        print(newDest)
     # duplicate baseCode to newAPICode
+    dest = newDest
     destination = shutil.copytree(src, dest)
 
 # combining the code lines for each object into one string to put in replacers
 toPutInFieldsExports = ""
 toPutInFields = ""
 toPutInRoutesImportLines = ""
+toPutInOtherDbCollectionExports = ""
+toPutInOtherCollections = ""
 for item in objectsArr:
     toPutInFieldsExports += item["name"] + "Fields : " + item["name"] + "Fields, \n\t"
     toPutInFields += item["code"] + "\n\n"
     if item["getsRoutes"]:
-        toPutInRoutesImportLines += "require('./routes/" + item["name"] + ".js')(router, app) //CRUD routes for " + item["name"] + "s"
+        toPutInRoutesImportLines += "require('./routes/" + item["name"] + ".js')(router, app) //CRUD routes for " + item["name"] + "s\n"
+        toPutInOtherDbCollectionExports += item["name"] + "sCollection: " + item["name"] + "sCollection,\n\t"
+        toPutInOtherCollections += "const " + item["name"] + "sCollection = '" + item["name"] + "'\n" 
 replacers["fields"] = toPutInFields
 replacers["routesImportLines"] = toPutInRoutesImportLines
 replacers["fieldsExports"] = toPutInFieldsExports
+replacers["otherDbCollectionExports"] = toPutInOtherDbCollectionExports
+replacers["otherCollections"] = toPutInOtherCollections
 
 # find and replace the <<__>> with the proper replacers
-files = os.listdir("newAPICode")
+files = os.listdir(dest)
 replaceAndRewrite(files, dest)
 
 # create a new ___.js for each of the objects that should get a routes file
@@ -111,20 +125,6 @@ for item in objectsArr:
     if(item["name"] == "objects"):
         print("ERROR: Invalid object name (object named objects).")
 os.remove(dest + "/routes/objects.js")
-
-
-
-#left to do:::
-
-#might have to mess with the way objects are put in the json, that seems sketch
-#but should be pretty close to trying it!!!
-#might also have to enable waterman IP on mongo's website
-
-#for each object
-#   make a copy of objects.js and do the apropriate things (rename routes, etc)
-#   make objectFields in constants.js
-#   add route to server imports
-#iterate through every file and update all <<>> things
 
 
 

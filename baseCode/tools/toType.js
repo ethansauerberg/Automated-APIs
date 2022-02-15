@@ -113,11 +113,13 @@ function toStringRecursive(input, numRecursions){
       else { //input is an object
         let out = "{"
         for(const property in input) {
-          if(property.includes("password")){
-            out += property + ": (hidden), "
-          }
-          else {
-            out += property + ": " + toStringRecursive(input[property], numRecursions+1) + ", "
+          if(typeof input[property] !== "function"){
+            if(property.includes("password")){
+              out += property + ": (hidden), "
+            }
+            else {
+              out += property + ": " + toStringRecursive(input[property], numRecursions+1) + ", "
+            }
           }
         }
         if(out == '{'){ //this means there were no properties (empty object)

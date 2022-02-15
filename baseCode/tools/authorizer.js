@@ -81,55 +81,56 @@ module.exports = {
       cb(inputError, null, null)
     }
     else {
-      let idErrorDoc, mongoId = MongoIdCreator.createMongoId(id)
-      if(idErrorDoc){
-        cb(idErrorDoc, null, null)
-      }
-      else {
-        Logger.info("Converted the id to a MongoDB _id object")
-        MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
-          if(findOneErrorDoc){
-            if(findOneErrorDoc.errors[0].title ==  "Requested Resource(s) Did Not Exist"){
-              Logger.warn('No user found with the email passed.');
-              let thisErrorDoc = Constants.newErrorDoc();
-              thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
-              cb(thisErrorDoc, null, null)
+      MongoIdCreator.createMongoId(id, (idErrorDoc, mongoId)=>{
+        if(idErrorDoc){
+          cb(idErrorDoc, null, null)
+        }
+        else {
+          Logger.info("Converted the id to a MongoDB _id object")
+          MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
+            if(findOneErrorDoc){
+              if(findOneErrorDoc.errors[0].title ==  "Requested Resource(s) Did Not Exist"){
+                Logger.warn('No user found with the email passed.');
+                let thisErrorDoc = Constants.newErrorDoc();
+                thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
+                cb(thisErrorDoc, null, null)
+              }
+              Logger.error("Error occurred in MongoOperations.findOne on user within verifyObjectOwner" + ToType.toString(findOneErrorDoc))
+              cb(findOneErrorDoc, null, null);
             }
-            Logger.error("Error occurred in MongoOperations.findOne on user within verifyObjectOwner" + ToType.toString(findOneErrorDoc))
-            cb(findOneErrorDoc, null, null);
-          }
-          else {
-            Logger.info("Found the user with email: " + email + ". Now verifying password")
-            if (!PasswordHash.verify(password, findOneReturnDoc.data.attributes.password)){
-              Logger.warn('User verification failed (password mismatch)');
-              let thisErrorDoc = Constants.newErrorDoc();
-              thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
-              cb(thisErrorDoc, null, null)
-            }
-            else{
-              Logger.info('User verification succeeded');
-              MongoOperations.findOne({_id: mongoId}, whichCollection, (findOneErrorDoc2, findOneReturnDoc2)=>{
-                if(findOneErrorDoc2){
-                  cb(findOneErrorDoc2, null, null);
-                }
-                else {
-                  Logger.info("Found the object with id: " + id + ". Verifying owner matches email")
-                  if(findOneReturnDoc2.data.attributes.owner !== email){
-                    Logger.warn('Object owner verifitication failed (email mismatch)');
-                    let thisErrorDoc2 = Constants.newErrorDoc();
-                    thisErrorDoc2.errors.push(Constants.allErrors.requestedResourceAccessDenied)
-                    cb(thisErrorDoc2, null, null)
+            else {
+              Logger.info("Found the user with email: " + email + ". Now verifying password")
+              if (!PasswordHash.verify(password, findOneReturnDoc.data.attributes.password)){
+                Logger.warn('User verification failed (password mismatch)');
+                let thisErrorDoc = Constants.newErrorDoc();
+                thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
+                cb(thisErrorDoc, null, null)
+              }
+              else{
+                Logger.info('User verification succeeded');
+                MongoOperations.findOne({_id: mongoId}, whichCollection, (findOneErrorDoc2, findOneReturnDoc2)=>{
+                  if(findOneErrorDoc2){
+                    cb(findOneErrorDoc2, null, null);
                   }
                   else {
-                    Logger.info('Object owner verification succeeded');
-                    cb(null, findOneReturnDoc2, findOneReturnDoc2.data.id)
+                    Logger.info("Found the object with id: " + id + ". Verifying owner matches email")
+                    if(findOneReturnDoc2.data.attributes.owner !== email){
+                      Logger.warn('Object owner verifitication failed (email mismatch)');
+                      let thisErrorDoc2 = Constants.newErrorDoc();
+                      thisErrorDoc2.errors.push(Constants.allErrors.requestedResourceAccessDenied)
+                      cb(thisErrorDoc2, null, null)
+                    }
+                    else {
+                      Logger.info('Object owner verification succeeded');
+                      cb(null, findOneReturnDoc2, findOneReturnDoc2.data.id)
+                    }
                   }
-                }
-              })
+                })
+              }
             }
-          }
-        })
-      }
+          })
+        }
+      })
     }
   },
 

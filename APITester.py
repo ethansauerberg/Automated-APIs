@@ -65,8 +65,6 @@ def randomBoolean():
 def sendRequest(type, fullUrl, data):
     try:
         if type == "post":
-            print("data in sendRequest:")
-            print(data)
             postResponse = requests.post(fullUrl, data = json.dumps(data), headers = {'Content-type': 'application/json'})
             postResponse.raise_for_status()
             responseJson = postResponse.json()
@@ -112,21 +110,21 @@ def hasErrors(query):
     else:
         return False
 
-def runTests(tests):
+def runTests(tests, verbose):
     for test in tests: 
-        print(f"sending {test['testType']} to {test['testUrl']} with {test['testData']}")
-        print("Test results:\n")
+        # print(f"sending {test['testType']} to {test['testUrl']} with {test['testData']}")
         requestReturn = sendRequest(test["testType"], test["testUrl"], test["testData"])
         if(requestReturn):
             if test["shouldSucceed"] != hasErrors(requestReturn):
                 print(test["testName"] + "success")
-                print("\t" + str(requestReturn) + "\n")
+                if verbose:
+                    print("\t" + str(requestReturn) + "\n")
             else:
                 print(test["testName"] + "FAILURE")
                 print("\t" + str(requestReturn) + "\n")
         else: 
             print(f"No request return. RequestReturn: {requestReturn}")
-        time.sleep(2)
+        time.sleep(4)
 
 
 
@@ -156,21 +154,48 @@ url = "http://" + configs["url"]
 #     {"testName": "GET /users good: ", "expectedString": testEmail, "testType": get, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
 #     {"testName": "DELETE /users good: ", "expectedString": "deletedCount", "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
 # ]
-usersTests = [
+PostGetDeleteUsersTests = [
     {"testName": "POST /users good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
     {"testName": "POST /users emailTaken: ", "shouldSucceed": False, "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
     {"testName": "GET /users good: ", "shouldSucceed": True, "testType": get, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
     {"testName": "DELETE /users good: ", "shouldSucceed": True, "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
 ]
-# runTests(usersTests)
 
-objectsTest = [
-   {"testName": "POST /testObjects good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": randomString(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}}
-    # {"testName": "POST /testObjects good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": "hi", "field3": True, "field4": [1, 2, 3], "field5": [{"nestedField1": "hi", "nestedField2": 5, "nestedField4": {"doubleNestedField1": "hi"}}]}}}
 
+postObjectsTest = [
+    {"testName": "POST /users good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
+
+    {"testName": "POST /testObjects good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": randomString(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}},
+    {"testName": "POST /testObjects missing pass and input: ", "shouldSucceed": False, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": randomString(), "field2": "a10", "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}},
+    {"testName": "POST /testObjects missing input: ", "shouldSucceed": False, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": "", "testObject":{"field2": randomNumber(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}},
+    {"testName": "POST /testObjects good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": randomString(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}, {"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}, {"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}},
+    {"testName": "POST /testObjects missing input: ", "shouldSucceed": False, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword, "testObject":{"field1": randomString(), "field2": "a10", "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}},
+    {"testName": "POST /testObjects bad email: ", "shouldSucceed": False, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail + "asdf", "password": testPassword, "testObject":{"field1": randomString(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}},
+    {"testName": "POST /testObjects bad password: ", "shouldSucceed": False, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObjects", "testData": {"email": testEmail, "password": testPassword + "asdf", "testObject":{"field1": randomString(), "field3": randomBoolean(), "field4": [randomNumber(), randomNumber(), randomNumber()], "field5": [{"nestedField1": randomString(), "nestedField2": randomNumber(), "nestedField4": {"doubleNestedField1": randomString()}}]}}},
+
+    {"testName": "DELETE /users good: ", "shouldSucceed": True, "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
 ]
 
-runTests(objectsTest)
+getObjectsTestSetup = [
+    {"testName": "DELETE /users good: ", "shouldSucceed": True, "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
+    {"testName": "POST /users good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/users", "testData" : {"email": testEmail, "password": testPassword,}},
+    {"testName": "POST /testObject2s good: ", "shouldSucceed": True, "testType": post, "testUrl": url + "/" + configs["version"] + "/testObject2s", "testData": {"email": testEmail, "password": testPassword, "testObject2":{"fieldA": randomString()}}},
+]
+
+testObject2Id = '620bf24522f849f736ec8767'
+
+getObjectsTest = [
+    {"testName": "GET /testObject2s good: ", "shouldSucceed": True, "testType": get, "testUrl": url + "/" + configs["version"] + "/testObject2s/" + testObject2Id, "testData": {"email": testEmail, "password": testPassword}},
+    {"testName": "GET /testObject2s bad Id: ", "shouldSucceed": False, "testType": get, "testUrl": url + "/" + configs["version"] + "/testObject2s/" + testObject2Id + "a", "testData": {"email": testEmail, "password": testPassword}},
+    {"testName": "GET /testObject2s bad email: ", "shouldSucceed": False, "testType": get, "testUrl": url + "/" + configs["version"] + "/testObject2s/" + testObject2Id, "testData": {"email": testEmail + "a", "password": testPassword}},
+    {"testName": "GET /testObject2s bad password: ", "shouldSucceed": False, "testType": get, "testUrl": url + "/" + configs["version"] + "/testObject2s/" + testObject2Id, "testData": {"email": testEmail, "password": testPassword + "a"}},
+
+    # {"testName": "DELETE /users good: ", "shouldSucceed": True, "testType": delete, "testUrl": url + "/" + configs["version"] + "/users/" + testEmail, "testData": {"password": testPassword}},
+]
+# runTests(getObjectsTestSetup, True)
+runTests(getObjectsTest, True)
+# allTests = PostGetDeleteUsersTests + postObjectsTest
+# runTests(allTests, True)
 
 
 # users.js:

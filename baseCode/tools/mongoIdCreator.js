@@ -26,13 +26,21 @@ module.exports = {
   //takes a mongo id string and turns it into an id object
   //returns an error doc and an idObject, one of which will be null
   createMongoId: function createMongoId(id, cb){
-    let idObject = ObjectId(id)
-    if(idObject){
-      Logger.info("Converted the id to a MongoDB _id object")
-      cb(null, idObject);
+    try {
+      let idObject = ObjectId(id)
+      if(idObject){
+        Logger.info("Converted the id to a MongoDB _id object")
+        cb(null, idObject);
+      }
+      else {
+        Logger.error("An unknown error occurred with Mongo's ObjectId's ObjectId(filter) function")
+        let thisErrorDoc = Constants.newErrorDoc();
+        thisErrorDoc.errors.push(Constants.allErrors.invalidMongoId)
+        cb(thisErrorDoc, null);
+      }
     }
-    else{
-      Logger.error("An unknown error occurred with Mongo's ObjectId's ObjectId(filter) function")
+    catch (error) {
+      Logger.error("An error occurred with Mongo's ObjectId's ObjectId(filter) function: ", error)
       let thisErrorDoc = Constants.newErrorDoc();
       thisErrorDoc.errors.push(Constants.allErrors.invalidMongoId)
       cb(thisErrorDoc, null);

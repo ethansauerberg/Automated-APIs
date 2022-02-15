@@ -50,50 +50,56 @@ module.exports=(router, app)=>{
                     return;
                 }
                 else {
-                    ObjectCreator.createNewObject(<<object>>, Constants.<<object>>Fields, (createErrorDoc, createdObject)=>{
-                        if(createErrorDoc !== null){
-                            res.send(createErrorDoc)
-                            return;
-                        }
-                        else {
-                            createdObject["owner"] = email
-                            MongoOperations.insertOne(<<object>>, Constants.<<object>>sCollection, (insertErrorDoc, insertReturnDoc)=>{
-                                if(insertErrorDoc !== null){
-                                    res.send(insertErrorDoc)
-                                    return;
-                                }
-                                else {
-                                    res.send(insertReturnDoc)
-                                    return;
-                                }
-                            })
-                        }
-                    })              
+                    let createErrorDoc, createdObject = ObjectCreator.createNewObject(<<object>>, Constants.<<object>>Fields)
+                    if(createErrorDoc != null){
+                        res.send(createErrorDoc)
+                        return;
+                    }
+                    else {
+                        createdObject["owner"] = email
+                        MongoOperations.insertOne(createdObject, Constants.<<object>>sCollection, (insertErrorDoc, insertReturnDoc)=>{
+                            if(insertErrorDoc !== null){
+                                res.send(insertErrorDoc)
+                                return;
+                            }
+                            else {
+                                res.send(insertReturnDoc)
+                                return;
+                            }
+                        })
+                    }           
                 }
             })
         }
     })
 
-    // //gets a user
-    // //parameters:
-    //   //req.params.email (the user’s email)
-    //      //req.query.password (the user's password)
-    // router.get('/<<version>>/users/:email', (req, res)=>{
-    //   let {email} = req.params
-    //   let {password} = req.query
-    //   Logger.info("\n\nAt the top of GET/users/:email with with: " + ToType.toString({email: email, password: password}))
-    //   console.log(email, password)
-    //   Authorizer.verifyUser(email, password, (verifyErrorDoc, verifyUserDoc, verifyId)=>{
-    //     if(verifyErrorDoc !== null){
-    //       res.send(verifyErrorDoc)
-    //       return;
-    //     }
-    //     else {
-    //       res.send(verifyUserDoc)
-    //       return;
-    //     }
-    //   })
-    // })
+    //gets a <<object>>
+    //parameters:
+        //req.params.<<object>>Id (the <<object>>'s Mongo ID)
+        //req.query.password (the user's password)
+        //req.query.email (the user's email)
+    router.get('/<<version>>/<<object>>s/:<<object>>Id', (req,res)=>{
+        let {<<object>>Id} = req.params
+        let {email, password} = req.query
+        Logger.info("\n\nAt the top of POST/<<object>>s with: " + ToType.toString({email: email, password: password, <<object>>Id: <<object>>Id}))
+        let inputErrorDoc = InputChecker.checkInputsExist([email, password, <<object>>Id])
+        if(inputErrorDoc !== null){
+            res.send(inputErrorDoc)
+            return;
+        }
+        else {
+            Authorizer.verifyObjectOwner(email, password, <<object>>Id, Constants.<<object>>sCollection, (<<object>>VerifyError, <<object>>VerifyDoc, <<object>>VerifyId)=>{
+                if(<<object>>VerifyError !== null){
+                    res.send(<<object>>VerifyError)
+                    return;
+                }
+                else {
+                    res.send(<<object>>VerifyDoc)
+                    return;
+                }
+            })
+        }
+    })
 
     // // //edits a user
     // // //parameters:

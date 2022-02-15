@@ -27,7 +27,9 @@ module.exports = {
   //creates a new object from input and list of required fields, or errors if fields are missing
   //returns errorDoc, object (one of these will be null)
   createNewObject: (input, fields)=>{  //This cannot handle fields that are arrays of arrays, or arrays with multiple types of objects inside
-    return createNewObject(input, fields)
+    let out = createNewObject(input, fields)
+    Logger.info(out)
+    return out
   }
 }
 
@@ -82,7 +84,7 @@ function createNewObject(input, fields){  //This cannot handle fields that are a
           }
           else if(element.type === "object"){ //for objects, just recurse
             let recursiveError2, recursiveDoc2 = createNewObject(input[element.name], element.nestedFields)
-            if(recursiveError2 !== null){
+            if(recursiveError2 != null){
               return recursiveError2
             }
             else {

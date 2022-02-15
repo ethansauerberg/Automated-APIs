@@ -40,7 +40,7 @@ module.exports = {
 
 function isNullUndefinedOrEmpty(input){
   if(input === null || input === undefined || input === ""){
-    Logger.warn("True in isNullUndefinedOrEmpty. Input: " + ToType.toString(input))
+    // Logger.warn("True in isNullUndefinedOrEmpty. Input: " + ToType.toString(input))
     let thisErrorDoc = Constants.newErrorDoc();
     thisErrorDoc.errors.push(Constants.allErrors.missingInput)
     return thisErrorDoc;
