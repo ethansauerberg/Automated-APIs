@@ -42,7 +42,7 @@ function isNullUndefinedOrEmpty(input){
   if(input === null || input === undefined || input === ""){
     // Logger.warn("True in isNullUndefinedOrEmpty. Input: " + ToType.toString(input))
     let thisErrorDoc = Constants.newErrorDoc();
-    thisErrorDoc.errors.push(Constants.allErrors.missingInput)
+    thisErrorDoc.errors.push(Constants.allErrors.invalidInput)
     return thisErrorDoc;
   }
   else {
@@ -62,9 +62,9 @@ function checkInputsExist(arrayOfInputs){
     return null;
   }
   else {
-    Logger.warn("One or more of the required inputs was missing in checkInuts... Inputs: " + ToType.toString(arrayOfInputs))
+    Logger.warn("One or more of the required inputs was missing in checkInputs... Inputs: " + ToType.toString(arrayOfInputs))
     let thisErrorDoc = Constants.newErrorDoc();
-    thisErrorDoc.errors.push(Constants.allErrors.missingInput)
+    thisErrorDoc.errors.push(Constants.allErrors.invalidInput)
     return thisErrorDoc;
   }
 }

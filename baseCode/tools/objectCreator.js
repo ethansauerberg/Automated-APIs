@@ -26,48 +26,52 @@ const InputChecker = require('./inputChecker.js')
 module.exports = {
   //creates a new object from input and list of required fields, or errors if fields are missing
   //returns errorDoc, object (one of these will be null)
-  createNewObject: (input, fields)=>{  //This cannot handle fields that are arrays of arrays, or arrays with multiple types of objects inside
-    let out = createNewObject(input, fields)
-    Logger.info(out)
-    return out
+  createNewObject: (input, fields, cb)=>{  //This cannot handle fields that are arrays of arrays, or arrays with multiple types of objects inside
+    createNewObject(input, fields, (cb2Error, cb2Return)=>{ 
+      cb(cb2Error, cb2Return)
+      return;
+    }) 
   }
 }
 
-function createNewObject(input, fields){  //This cannot handle fields that are arrays of arrays, or arrays with multiple types of objects inside
+function createNewObject(input, fields, cb){  //This cannot handle fields that are arrays of arrays, or arrays with multiple types of objects inside
   Logger.info("At the top of createNewObject with: " + ToType.toString({input: input, fields: fields}))
   let checkInputsReturn = InputChecker.checkInputsExist([input, fields])
   if(checkInputsReturn !== null){
-    return checkInputsReturn
+    cb(checkInputsReturn, null)
+    return;
   }
   else {
     if(typeof input != "object" || Array.isArray(input)){
       Logger.error("Input was not an object")
       let thisErrorDoc = Constants.newErrorDoc();
       thisErrorDoc.errors.push(Constants.allErrors.invalidInput)
-      return thisErrorDoc, null;
+      cb(thisErrorDoc, null)
+      return;
     }
     else {
       let newObject = {};
-      fields.forEach(element=>{
-        let elementIsNull = InputChecker.isNullUndefinedOrEmpty(input[element.name])
-        if(element.required && elementIsNull){ //if it's required and null, error
-          Logger.error("A required field was missing")
-          let thisErrorDoc = Constants.newErrorDoc();
-          thisErrorDoc.errors.push(Constants.allErrors.invalidInput)
-          return thisErrorDoc, null;
+      for (let element of fields) {
+        let inputErrorDoc = InputChecker.isNullUndefinedOrEmpty(input[element.name])
+        if(element.required && inputErrorDoc != null){ //if it's required and null, error
+          Logger.warn("Failing at createNewObject because a required input field was not present")
+          cb(inputErrorDoc, null)
+          return;
         }
-        else if(!elementIsNull){ //only continue if field exists b/c if it's not required and missing, nothing to do
+        else if(!inputErrorDoc){ //only continue if field exists b/c if it's not required and missing, nothing to do
           if(element.type === "array"){
             newObject[element.name] = [];
             if(element.nestedType === "object"){ //for arrays of objects, recurse on each then push
               input[element.name].forEach(element2 => {
-                let recursiveError, recursiveDoc = createNewObject(element2, element.nestedFields)
-                if(recursiveError !== null){
-                  return recursiveError, null;
-                }
-                else {
-                  newObject[element.name].push(recursiveDoc)
-                }
+                createNewObject(element2, element.nestedFields, (recursiveError, recursiveDoc)=>{
+                  if(recursiveError !== null){
+                    cb(recursiveError, null)
+                    return;
+                  }
+                  else {
+                    newObject[element.name].push(recursiveDoc)
+                  }
+                })
               })
             }
             else if(element.nestedType === "string" || element.nestedType === "number" || element.nestedType === "boolean"){ //for arrays of basic types, type each and push
@@ -79,17 +83,20 @@ function createNewObject(input, fields){  //This cannot handle fields that are a
               Logger.error("createNewObject was fed a document with an array whose nestedType was not 'object', 'string', 'number', or 'boolean'")
               let thisErrorDoc = Constants.newErrorDoc();
               thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
-              return thisErrorDoc, null;
+              cb(thisErrorDoc, null)
+              return;
             }
           }
           else if(element.type === "object"){ //for objects, just recurse
-            let recursiveError2, recursiveDoc2 = createNewObject(input[element.name], element.nestedFields)
-            if(recursiveError2 != null){
-              return recursiveError2
-            }
-            else {
-              newObject[element.name] = recursiveDoc2;
-            }
+            createNewObject(input[element.name], element.nestedFields, (recursiveError2, recursiveDoc2)=>{
+              if(recursiveError2 != null){
+                cb(recursiveError2, null)
+                return
+              }
+              else {
+                newObject[element.name] = recursiveDoc2;
+              }
+            })
           }
           else if(element.type === "string" || element.type === "number" || element.type === "boolean"){ //for basic types, just type them
             newObject[element.name] = ToType.toType(input[element.name], element.type)
@@ -98,12 +105,14 @@ function createNewObject(input, fields){  //This cannot handle fields that are a
             Logger.error("createNewObject was fed a document with a type that was none of 'object', 'array', 'number', 'string', and 'boolean'")
             let thisErrorDoc = Constants.newErrorDoc();
             thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
-            return thisErrorDoc, null;
+            cb(thisErrorDoc, null)
+            return
           }
         }
-      })
+      }
       Logger.info("The required fields were all present and have now been typed")
-      return null, newObject
+      cb(null, newObject)
+      return;
     }
   }
 }

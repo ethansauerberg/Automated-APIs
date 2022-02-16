@@ -45,8 +45,16 @@ module.exports = {
     else {
       MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
         if(findOneErrorDoc){
-          Logger.error("Error occurred in MongoOperations.findOne within verifyUser: " + ToType.toString(findOneErrorDoc))
-          cb(findOneErrorDoc, null, null);
+          if(findOneErrorDoc.errors[0].title == "Requested Resource(s) Did Not Exist"){
+            Logger.warn('No user found with the email passed.');
+            let thisErrorDoc = Constants.newErrorDoc();
+            thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
+            cb(thisErrorDoc, null, null)
+          }
+          else {
+            Logger.error("Error occurred in MongoOperations.findOne within verifyUser: " + ToType.toString(findOneErrorDoc))
+            cb(findOneErrorDoc, null, null);
+          }
         }
         else {
           Logger.info("Found the user with email: " + email + ". Now verifiying password")
@@ -95,8 +103,10 @@ module.exports = {
                 thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
                 cb(thisErrorDoc, null, null)
               }
-              Logger.error("Error occurred in MongoOperations.findOne on user within verifyObjectOwner" + ToType.toString(findOneErrorDoc))
-              cb(findOneErrorDoc, null, null);
+              else {
+                Logger.error("Error occurred in MongoOperations.findOne on user within verifyObjectOwner" + ToType.toString(findOneErrorDoc))
+                cb(findOneErrorDoc, null, null);
+              }
             }
             else {
               Logger.info("Found the user with email: " + email + ". Now verifying password")
