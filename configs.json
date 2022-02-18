@@ -1,28 +1,27 @@
 {
-    "replacers": {
+    "replacers":{
         "version": "",
         "url": "",
         "docsUrl": "",
-        "adminEmail": "",
         "mongoUser": "",
         "mongoPass": "",
         "mongoClusterName": "",
         "mongoDatabaseName": "",
-        "otherCollections": "",
-        "invalidInputMessage": "",
-        "invalidEmailOrPasswordMessage": "",
-        "emailTakenMessage": "",
-        "requestedResourceAccessDenied": "",
-        "requestedResourcesDidNotExistMessage": "",
-        "internalServerErrorMessage": "",
-        "invalidEmailMessage": "",
-        "invalidPasswordMessage": "",
         "author": "",
-        "otherDbCollectionExports": "",
-        "fields": "",
-        "routesImportLines": ""
+        "otherCollections": "will be replaced later...",
+        "otherDbCollectionExports": "will be replaced later...",
+        "fields": "will be replaced later...",
+        "fieldsExports": "will be replaced later...",
+        "routesImportLines": "will be replaced later...",
+        "invalidInputMessage": "Invalid or missing input. Please see the docs at the above link for more information.",
+        "invalidEmailOrPasswordMessage": "No email/password match.",
+        "requestedResourcesDidNotExistMessage": "The requested resource(s) did not exist.",
+        "internalServerErrorMessage": "An internal server error occurred. Please try again.",
+        "emailTakenMessage": "There is already an account associated with that email. Please try logging in, or create an account using a different email.",
+        "requestedResourceAccessDenied": "Your account does not have access to one or more of the requested resources.",
+        "invalidEmailMessage": "The email passed did not pass our email verifier. Please ensure your email address fits the format ______@____.___ and contains no additional special characters.",
+        "invalidPasswordMessage": "Your password did not pass our password verifier. Passwords must be 8-100 non-space characters and have one or more of each: uppercase letters, lowercase letters, digits, symbols.",
+        "invalidMongoIdMessage": "The MongoDB ID passed was invalid. Please ensure it fits standard MongoDB ID format."
     },
-    "objects": [
-
-    ]
+    "objects": []
 }

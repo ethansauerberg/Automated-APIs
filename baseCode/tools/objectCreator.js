@@ -25,7 +25,11 @@ const InputChecker = require('./inputChecker.js')
 
 module.exports = {
   //creates a new object from input and list of required fields, or errors if fields are missing
-  //returns errorDoc, object (one of these will be null)
+  //parameters
+    //input - the object for which each field should be checked and typed
+    //fields - the fields and their respective types, as specified in constants.js
+    //cb - the callback function
+      //error document, object after typing (one of these will be null)
   createNewObject: (input, fields, cb)=>{  //This cannot handle fields that are arrays of arrays, or arrays with multiple types of objects inside
     createNewObject(input, fields, (cb2Error, cb2Return)=>{ 
       cb(cb2Error, cb2Return)
@@ -34,6 +38,7 @@ module.exports = {
   }
 }
 
+//See the export notes.
 function createNewObject(input, fields, cb){  //This cannot handle fields that are arrays of arrays, or arrays with multiple types of objects inside
   Logger.info("At the top of createNewObject with: " + ToType.toString({input: input, fields: fields}))
   let checkInputsReturn = InputChecker.checkInputsExist([input, fields])

@@ -3,7 +3,6 @@
         "version": "v1",
         "url": "localhost:2000",
         "docsUrl": "localhost:2000",
-        "adminEmail": "ethansauerberg@gmail.com",
         "mongoUser": "autoAPIUsername",
         "mongoPass": "autoAPIPassword",
         "mongoClusterName": "Cluster0",

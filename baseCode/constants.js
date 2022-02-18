@@ -21,9 +21,6 @@
 const siteUrl = '<<siteUrl>>'
 const siteDocsUrl = '<<siteDocsUrl>>'
 
-// //the users who have access to admin routes
-const adminEmails = ["<<adminEmail>>"]
-
 //password validation schema:
 //passwords must be 8-100 non-space characters and have one or more of each: uppercase letters, lowercase letters, digits, symbols
 const passwordValidator = require('password-validator');

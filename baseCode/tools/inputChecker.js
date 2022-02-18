@@ -37,10 +37,9 @@ module.exports = {
   isNullUndefinedOrEmpty: (input)=>{return isNullUndefinedOrEmpty(input)}
 } 
 
-
+// Returns an error doc if input is null, undefined, or the empty string. Returns null otherwise
 function isNullUndefinedOrEmpty(input){
   if(input === null || input === undefined || input === ""){
-    // Logger.warn("True in isNullUndefinedOrEmpty. Input: " + ToType.toString(input))
     let thisErrorDoc = Constants.newErrorDoc();
     thisErrorDoc.errors.push(Constants.allErrors.invalidInput)
     return thisErrorDoc;
@@ -50,6 +49,7 @@ function isNullUndefinedOrEmpty(input){
   }
 }
 
+// Calls isNullUndefinedorEmpty on each item in arrayOfInputs and returns the error document if any of them are missing
 function checkInputsExist(arrayOfInputs){
   let success = true;
   arrayOfInputs.forEach(element =>{

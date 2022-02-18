@@ -23,6 +23,7 @@ const Constants = require('../constants.js')
 const ToType = require('./toType.js')
 
 module.exports = {
+  //Stringifies each input via inputsToLoggable, then logs them
   info: function info(input1, input2, input3, input4, input5, input6, input7, input8){
     try{
       Logger.info(inputsToLoggable([input1, input2, input3, input4, input5, input6, input7, input8]))
@@ -35,6 +36,7 @@ module.exports = {
       console.log(e)
     }
   },
+  //Same as info, but also places in warnings.log
   warn: function warn(input1, input2, input3, input4, input5, input6, input7, input8){
     try{
       Logger.warn(inputsToLoggable([input1, input2, input3, input4, input5, input6, input7, input8]))
@@ -47,6 +49,7 @@ module.exports = {
       console.log(e)
     }
   },
+  //Same as warn, but also places in errors.log
   error: function error(input1, input2, input3, input4, input5, input6, input7, input8){
     try{
       Logger.error(inputsToLoggable([input1, input2, input3, input4, input5, input6, input7, input8]))
@@ -59,6 +62,7 @@ module.exports = {
       console.log(e)
     }
   },
+  //Same as error, but also places in alerts.log
   alert: function alert(input1, input2, input3, input4, input5, input6, input7, input8){
     try{
       Logger.info(inputsToLoggable([input1, input2, input3, input4, input5, input6, input7, input8]))
@@ -73,6 +77,7 @@ module.exports = {
   }
 }
 
+//Stringifies inputs and trims them if they are too long.
 function inputsToLoggable(inputArray){
   var toLog = ""
   inputArray.forEach(element => {

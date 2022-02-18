@@ -151,119 +151,38 @@ module.exports = {
     //password - the user's password as plaintext
     //cb - the callback function
       //cb returns (error doc, user doc, user id), some of which will always be null
-  verifyAdmin: function verifyAdmin(email, password, cb){
-    Logger.info("At the top of function verifyAdmin")
-    let inputError = InputChecker.checkInputsExist([email, password])
-    if(inputError !== null){
-      cb(inputError)
-    }
-    else {
-      if(!Constants.adminEmails.contains(email)){
-        Logger.alert('Admin verification failed (not in adminEmails array)');
-        let thisErrorDoc = Constants.newErrorDoc();
-        thisErrorDoc.errors.push(Constants.allErrors.requestedResourceAccessDenied)
-        cb(thisErrorDoc)
-      }
-      MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
-        if(findOneErrorDoc){
-          Logger.error("Error occurred in MongoOperations.findOne within verifyAdmin" + ToType.toString(findOneErrorDoc))
-          cb(findOneErrorDoc);
-        }
-        else {
-          Logger.info("Found the user with email: " + email + ". Now verifiying password")
-          if (!PasswordHash.verify(password, findOneReturnDoc.data.attributes.password)){
-            Logger.alert('Admin verification failed (password mismatch)');
-            let thisErrorDoc = Constants.newErrorDoc();
-            thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
-            cb(thisErrorDoc)
-          }
-          else{
-            Logger.info('Admin verification succeeded');
-            cb(null)
-          }
-        }
-      })
-    }
-  },
-
-  // //this function verifies if a user is allowed to access a given feature by getting the user, and checking isGood, isBetter, and isBest
-  // //parameters:
-  //   //email - the user's email
-  //   //level - the level (isGood/isBetter/isBest/isEnterprise/isFreeTrial) of clearance needed
-  //   //cb - the callback function
-  //     //cb returns (error doc, boolean of whether user is cleared or not)
-  // verifyAccountLevel: function verifyAccountLevel(email, level, cb){
-  //   Logger.info("At the top of verifyAccountLevel")
-  //   let inputError = InputChecker.checkInputsExist([email, level])
+  // verifyAdmin: function verifyAdmin(email, password, cb){
+  //   Logger.info("At the top of function verifyAdmin")
+  //   let inputError = InputChecker.checkInputsExist([email, password])
   //   if(inputError !== null){
-  //     cb(inputError, null)
+  //     cb(inputError)
   //   }
-  //   else{
-  //     if(level !== "isGood" && level.toLowerCase !== "isBetter" && level.toLowerCase !== "isBest" && level.toLowerCase !== "isFreeTrial" && level.toLowerCase !== "isEnterprise"){
-  //       Logger.error('Bad verifyAccountType level passed');
+  //   else {
+  //     if(!Constants.adminEmails.contains(email)){
+  //       Logger.alert('Admin verification failed (not in adminEmails array)');
   //       let thisErrorDoc = Constants.newErrorDoc();
-  //       thisErrorDoc.errors.push(Constants.allErrors.invalidAccountLevelPassed)
-  //       cb(thisErrorDoc, null)
+  //       thisErrorDoc.errors.push(Constants.allErrors.requestedResourceAccessDenied)
+  //       cb(thisErrorDoc)
   //     }
   //     MongoOperations.findOne({email: email}, Constants.usersCollection, (findOneErrorDoc, findOneReturnDoc)=>{
   //       if(findOneErrorDoc){
-  //         Logger.error("Error occurred in MongoOperations.findOne within verifyAccountLevel" + ToType.toString(findOneErrorDoc))
+  //         Logger.error("Error occurred in MongoOperations.findOne within verifyAdmin" + ToType.toString(findOneErrorDoc))
   //         cb(findOneErrorDoc);
   //       }
   //       else {
-  //         if(level === "isGood"){
-  //           let user = findOneReturn.data.attributes
-  //           if(user.isGood || user.isBetter || user.isBest || user.isEnterprise || user.isFreeTrial){
-  //             Logger.info("User had isGood true")
-  //             cb(null, true)
-  //           }
-  //           else {
-  //             Logger.info("User had isGood false")
-  //             cb(null, false)
-  //           }
+  //         Logger.info("Found the user with email: " + email + ". Now verifiying password")
+  //         if (!PasswordHash.verify(password, findOneReturnDoc.data.attributes.password)){
+  //           Logger.alert('Admin verification failed (password mismatch)');
+  //           let thisErrorDoc = Constants.newErrorDoc();
+  //           thisErrorDoc.errors.push(Constants.allErrors.invalidEmailOrPassword)
+  //           cb(thisErrorDoc)
   //         }
-  //         else if(level === "isBetter"){
-  //           if(user.isBetter || user.isBest || user.isEnterprise || user.isFreeTrial){
-  //             Logger.info("User had isBetter (or greater) true")
-  //             cb(null, true)
-  //           }
-  //           else {
-  //             Logger.info("User had isBetter (or greater) false")
-  //             cb(null, false)
-  //           }
-  //         }
-  //         else if(level === "isBest"){
-  //           if(user.isBest || user.isEnterprise || user.isFreeTrial){
-  //             Logger.info("User had isBetter (or greater) true")
-  //             cb(null, true)
-  //           }
-  //           else {
-  //             Logger.info("User had isBest/isEnterprise/isFreeTrial false")
-  //             cb(null, false)
-  //           }
-  //         }
-  //         else if(level === "isEnterprise"){
-  //           if(user.isEnterprise){
-  //             Logger.info("User had isEnterprise true")
-  //             cb(null, true)
-  //           }
-  //           else {
-  //             Logger.info("User had isEnterprise false")
-  //             cb(null, false)
-  //           }
-  //         }
-  //         else if(level === "isFreeTrial"){
-  //           if(user.isFreeTrial){
-  //             Logger.info("User had isFreeTrial true")
-  //             cb(null, true)
-  //           }
-  //           else {
-  //             Logger.info("User had isFreeTrial false")
-  //             cb(null, false)
-  //           }
+  //         else{
+  //           Logger.info('Admin verification succeeded');
+  //           cb(null)
   //         }
   //       }
   //     })
   //   }
-  // }
+  // },
 }

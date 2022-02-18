@@ -26,6 +26,7 @@ const ToType = require('./toType.js')
 const Logger = require('./customLog.js')
 
 module.exports = {
+  // Find the item (the first if multiple match) in whichColleciton that satisfied findFilter
   findOne: function findOne(findFilter, whichCollection, cb){
     Logger.info("At the top of findOne in mongoOperations.js")
     let inputErrorDoc = InputChecker.checkInputsExist([findFilter, whichCollection])
@@ -82,6 +83,7 @@ module.exports = {
     }
   },
 
+  // Finds all items in whichCollection that satisfy findFilter.
   find: function find(findFilter, whichCollection, cb){
     Logger.info("At the top of find in mongoOperations.js")
     let inputErrorDoc = InputChecker.checkInputsExist([findFilter, whichCollection])
@@ -157,6 +159,7 @@ module.exports = {
     }
   },
 
+  // Inserts toInsert into whichCollection.
   insertOne: function insertOne(toInsert, whichCollection, cb){
     Logger.info("At the top of insertOne in mongoOperations.js")
     let inputErrorDoc = InputChecker.checkInputsExist([toInsert, whichCollection])
@@ -221,6 +224,7 @@ module.exports = {
     }
   },
 
+  // Inserts each item in toInsertArray into the collection specified by whichCollection
   // insertMany: function insertMany(toInsertArray, whichCollection, cb){
   //   Logger.info("At the top of insertMany in mongoOperations.js")
   //   let inputErrorDoc = InputChecker.checkInputsExist([toInsertArray, whichCollection])
@@ -311,61 +315,63 @@ module.exports = {
   //   }
   // },
 
-  updateOne: function updateOne(id, update, options, whichCollection, cb){
-    Logger.info("At the top of updateOne in mongoOperations.js")
-    let inputErrorDoc = InputChecker.checkInputsExist([id, update, whichCollection])
-    if(inputErrorDoc !== null){
-      cb(inputErrorDoc, null)
-    }
-    else {
-      let thisErrorDoc = Constants.newErrorDoc();
-      const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
-      db.connect(dbErr => {
-        if (dbErr){
-          Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
-          thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
-          db.close()
-          cb(thisErrorDoc, null)
-        }
-        else {
-          let collection = db.db(Constants.dbName).collection(whichCollection);
-          MongoIdCreator.createMongoId(id, (idErrorDoc, mongoId)=>{
-            if(idErrorDoc){
-              db.close()
-              cb(idErrorDoc, null)
-            }
-            else {
-              Logger.info("updateOne mongoId is: " + ToType.toString(mongoId))
-              collection.updateOne({_id: mongoId}, update, options, (updateErr, updateRes)=>{
-                if(updateErr){
-                  Logger.error("An error occured in updateOne: " + ToType.toString(updateErr))
-                  thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
-                  db.close()
-                  cb(thisErrorDoc, null)
-                }
-                else if(updateRes){
-                  let returnDoc = Constants.newReturnDoc();
-                  returnDoc.data.attributes = updateRes;
-                  returnDoc.data.id = id;
-                  returnDoc.data.type = whichCollection
-                  Logger.info("Full success for this updateOne, doc to return: " + ToType.toString(returnDoc))
-                  db.close()
-                  cb(null, returnDoc);
-                }
-                else {
-                  Logger.error("No updateRes was returned from mongo in updateOne")
-                  thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
-                  db.close()
-                  cb(thisErrorDoc, null)
-                }
-              })
-            }
-          })
-        }
-      });
-    }
-  },
+  // Updates the item with MongoId id from whichCollection with new data specified in update, and update options specified in options
+  // updateOne: function updateOne(id, update, options, whichCollection, cb){
+  //   Logger.info("At the top of updateOne in mongoOperations.js")
+  //   let inputErrorDoc = InputChecker.checkInputsExist([id, update, whichCollection])
+  //   if(inputErrorDoc !== null){
+  //     cb(inputErrorDoc, null)
+  //   }
+  //   else {
+  //     let thisErrorDoc = Constants.newErrorDoc();
+  //     const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+  //     db.connect(dbErr => {
+  //       if (dbErr){
+  //         Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
+  //         thisErrorDoc.errors.push(Constants.allErrors.databaseConnectionError)
+  //         db.close()
+  //         cb(thisErrorDoc, null)
+  //       }
+  //       else {
+  //         let collection = db.db(Constants.dbName).collection(whichCollection);
+  //         MongoIdCreator.createMongoId(id, (idErrorDoc, mongoId)=>{
+  //           if(idErrorDoc){
+  //             db.close()
+  //             cb(idErrorDoc, null)
+  //           }
+  //           else {
+  //             Logger.info("updateOne mongoId is: " + ToType.toString(mongoId))
+  //             collection.updateOne({_id: mongoId}, update, options, (updateErr, updateRes)=>{
+  //               if(updateErr){
+  //                 Logger.error("An error occured in updateOne: " + ToType.toString(updateErr))
+  //                 thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+  //                 db.close()
+  //                 cb(thisErrorDoc, null)
+  //               }
+  //               else if(updateRes){
+  //                 let returnDoc = Constants.newReturnDoc();
+  //                 returnDoc.data.attributes = updateRes;
+  //                 returnDoc.data.id = id;
+  //                 returnDoc.data.type = whichCollection
+  //                 Logger.info("Full success for this updateOne, doc to return: " + ToType.toString(returnDoc))
+  //                 db.close()
+  //                 cb(null, returnDoc);
+  //               }
+  //               else {
+  //                 Logger.error("No updateRes was returned from mongo in updateOne")
+  //                 thisErrorDoc.errors.push(Constants.allErrors.databaseOperationError)
+  //                 db.close()
+  //                 cb(thisErrorDoc, null)
+  //               }
+  //             })
+  //           }
+  //         })
+  //       }
+  //     });
+  //   }
+  // },
 
+  // Deletes the item with MongoId id from whichCollection
   deleteOne: function deleteOne(id, whichCollection, cb){
     Logger.info("At the top of deleteOne in mongoOperations.js")
     let inputErrorDoc = InputChecker.checkInputsExist([id, whichCollection])
@@ -422,6 +428,8 @@ module.exports = {
     }
   },
 
+
+  // Deletes all items in whichCollection that meet the passed deleteFilter
   // deleteMany: function deleteMany(deleteFilter, whichCollection, cb){
   //   Logger.info("At the top of deleteMany in mongoOperations.js")
   //   let inputErrorDoc = InputChecker.checkInputsExist([deleteFilter, whichCollection])
@@ -477,43 +485,44 @@ module.exports = {
   //   }
   // },
 
-  dropCollection: function dropCollection(whichCollection, cb){
-    Logger.info("At the top of dropCollection in mongoOperations.js")
-    let inputErrorDoc = InputChecker.checkInputsExist([whichCollection])
-    if(inputErrorDoc !== null){
-      cb(inputErrorDoc, null)
-    }
-    else {
-      let thisErrorDoc = Constants.newErrorDoc();
-      const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
-      db.connect(dbErr => {
-        if (dbErr){
-          Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
-          thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
-          db.close()
-          cb(thisErrorDoc, null)
-        }
-        else {
-          let collection = db.db(Constants.dbName).collection(whichCollection);
-          collection.drop((dropErr, dropSuccess)=>{
-            if(dropErr){
-              Logger.error(dropErr)
-              thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
-              db.close()
-              cb(thisErrorDoc, null)
-            }
-            else {
-              let returnDoc = Constants.newReturnDoc();
-              returnDoc.data.id = null
-              returnDoc.data.type = null
-              returnDoc.data.attributes = dropSuccess;
-              Logger.info("Full success for this dropCollection, doc to return: " + ToType.toString(returnDoc))
-              db.close()
-              cb(null, returnDoc);
-            }
-          })
-        }
-      })
-    }
-  }
+  // Drops a collection, specificed by whichCollection.
+  // dropCollection: function dropCollection(whichCollection, cb){
+  //   Logger.info("At the top of dropCollection in mongoOperations.js")
+  //   let inputErrorDoc = InputChecker.checkInputsExist([whichCollection])
+  //   if(inputErrorDoc !== null){
+  //     cb(inputErrorDoc, null)
+  //   }
+  //   else {
+  //     let thisErrorDoc = Constants.newErrorDoc();
+  //     const db = new MongoClient(Constants.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+  //     db.connect(dbErr => {
+  //       if (dbErr){
+  //         Logger.error('There was an error connecting to mongo error: '+ToType.toString(dbErr))
+  //         thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
+  //         db.close()
+  //         cb(thisErrorDoc, null)
+  //       }
+  //       else {
+  //         let collection = db.db(Constants.dbName).collection(whichCollection);
+  //         collection.drop((dropErr, dropSuccess)=>{
+  //           if(dropErr){
+  //             Logger.error(dropErr)
+  //             thisErrorDoc.errors.push(Constants.allErrors.internalServerError)
+  //             db.close()
+  //             cb(thisErrorDoc, null)
+  //           }
+  //           else {
+  //             let returnDoc = Constants.newReturnDoc();
+  //             returnDoc.data.id = null
+  //             returnDoc.data.type = null
+  //             returnDoc.data.attributes = dropSuccess;
+  //             Logger.info("Full success for this dropCollection, doc to return: " + ToType.toString(returnDoc))
+  //             db.close()
+  //             cb(null, returnDoc);
+  //           }
+  //         })
+  //       }
+  //     })
+  //   }
+  // }
 }

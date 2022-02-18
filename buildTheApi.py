@@ -19,7 +19,6 @@ replaceKeysDict = {
     "version": "<<version>>",
     "url": "<<siteUrl>>",
     "docsUrl": "<<siteDocsUrl>>",
-    "adminEmail": "<<adminEmail>>",
     "mongoUser": "<<mongoUser>>",
     "mongoPass": "<<mongoPass>>",
     "mongoClusterName": "<<mongoClusterName>>",

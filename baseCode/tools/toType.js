@@ -23,6 +23,7 @@ const Logger = require('./customLog.js')
 const maxRecursions = 5;
 
 module.exports = {
+  //casts item to the specified type
   toType: (item, type)=>{
     if(type === 'boolean'){
       if(item === "true" || item === "True" || item === true){
@@ -58,6 +59,7 @@ module.exports = {
   }
 }
 
+//Changes nested fields into dot notation, for use in Mongo Update
 function toDotNotation(input){
   let toRet = {};
   for(const prop in input){
@@ -76,6 +78,7 @@ function toDotNotation(input){
   return toRet
 }
 
+//Recursively casts input to a string, stopping if we hit the max number of recursions
 function toStringRecursive(input, numRecursions){
   if(numRecursions > maxRecursions){
     return "<max recurs>"
