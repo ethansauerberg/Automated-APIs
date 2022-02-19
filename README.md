@@ -1,81 +1,22 @@
 <div id="top"></div>
 
-<!-- [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url] -->
-
-
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!-- <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
 
 <h3 align="center">Auto API</h3>
 
   <p align="center">
     Unlimited, free (Node.js/Express.js/MongoDB) API's with custom user-defined types.
     <br><br>
-    This project is still in progress, but (my school workload permitting) I'm hoping to finish soon!
-    <br><br>
-    I will eventually put this up on my person website with a full guide including usage, hosting for free on AWS, setting up a free MongoDB database, etc :)
-
+    I recently finished the software for this project! GUI and full usage guide coming soon on my personal website!
   
   </p>
 </div>
 
-  <!-- <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a> -->
-
-
-<!-- TABLE OF CONTENTS -->
-<!-- <details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details> -->
-
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
-
-<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description` -->
-
-<!-- <p align="right">(<a href="#top">back to top</a>)</p> -->
-
+[![AutoAPI](https://github.com/ethansauerberg/Automated-APIs)
 
 
 ### Built With
@@ -83,32 +24,26 @@
 * [MongoDB]
 * [NodeJS]
 * [ExpressJS]
-<!-- * [Next.js](https://nextjs.org/) -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This section will eventually be the guide
-
+If you want to use this before I finish and release a GUI, start by cloning the repo. You'll then need to fill in configs.json with appropriate data. The majority should be obvious, but you'll need to have a MongoDB Cloud database (free teirs available <a href="https://www.mongodb.com/pricing"> here </a>) that is set up with a user able to edit the database (mongoUser/mongoPass) and network access for wherever you wish to run your server. The part that might be confusing about configs.json is the objects array. This is an array of the objects you want to be able to store in your database. See configsTest.json for an example. Finally, running python buildTheApi.py will build the API code in /newAPICode. cd into newAPICode, run npm install, and then node server.js should get you up and running!
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-This section will eventually contain an example or two of uses
+Sample uses could include a calendar application, a music saving site, and much more!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- LICENSE -->
 ## License
 
-To be honest, I know almost nothing about licenses. I have little interest in selling this code and hope to distribute it for free with a simple promise of use for good :)
+To be honest, I know almost nothing about licenses. I have little interest in selling this code. Feel free to use it as you wish (provided it is in good faith), but I am not responsible for any use or misuse of it that leads to unintended effects. I would strongly reccommend adding more advanced security (OAuth for example) than I have provided, as sending passwords in plaintext tends to be an extremely vulnerable security scheme. 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

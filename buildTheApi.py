@@ -6,13 +6,12 @@ import json
 from tkinter import N
 
 # # path
-path = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/'
-# Source path
-src = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/baseCode'
-# Destination path
-dest = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/newAPICode'
 
-# testingPath = 'C:/Users/ethan/Documents/PersonalProjects/Automated-APIs/testing/'
+path = os.getcwd()
+# Source path
+src = path + '/baseCode'
+# Destination path
+dest = path + '/newAPICode'
 
 # # Keys of things to replace
 replaceKeysDict = {
@@ -64,7 +63,7 @@ def replaceAndRewriteObjectsJs(fileName, location, replacer):
     print("Wrote: ..." + location[len(location)-10:] + "/routes/" + fileName + " (objects.js)")
 
 # What to replace each with
-configsFile = open('configsTest.json')
+configsFile = open('configs.json')
 configs = json.load(configsFile)
 replacers = configs["replacers"]
 configsFile.close()
