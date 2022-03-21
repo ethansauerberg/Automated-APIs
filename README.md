@@ -3,7 +3,7 @@
 <br />
 <div align="center">
 
-<h3 align="center">Auto API</h3>
+<h3 align="center">Automated APIs</h3>
 
   <p align="center">
     Unlimited, free (Node.js/Express.js/MongoDB) REST API's with custom user-defined types.
