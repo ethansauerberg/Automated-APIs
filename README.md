@@ -16,7 +16,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![AutoAPI](https://github.com/ethansauerberg/Automated-APIs)
+<!-- [![AutoAPI](https://github.com/ethansauerberg/Automated-APIs) -->
 
 
 ### Built With
