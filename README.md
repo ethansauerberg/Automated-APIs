@@ -6,10 +6,7 @@
 <h3 align="center">Automated APIs</h3>
 
   <p align="center">
-    Unlimited, free (Node.js/Express.js/MongoDB) REST API's with custom user-defined types.
-    <br><br>
-    I recently finished the software for this project! GUI and full usage guide coming soon on my personal website!
-  
+    Unlimited, free (Node.js/Express.js/MongoDB) REST API's with custom user-defined types.  
   </p>
 </div>
 
@@ -37,13 +34,6 @@ If you want to use this before I finish and release a GUI, start by cloning the 
 ## Usage
 
 Sample uses could include a calendar application, a music saving site, and much more!
-
-<!-- <p align="right">(<a href="#top">back to top</a>)</p> -->
-
-<!-- LICENSE -->
-## License
-
-To be honest, I know almost nothing about licenses. I have little interest in selling this code. Feel free to use it as you wish (provided it is in good faith), but I am not responsible for any use or misuse of it that leads to unintended effects. I would strongly reccommend adding more advanced security (OAuth for example) than I have provided, as sending passwords in plaintext tends to be an extremely vulnerable security scheme. 
 
 <!-- <p align="right">(<a href="#top">back to top</a>)</p> -->
 
