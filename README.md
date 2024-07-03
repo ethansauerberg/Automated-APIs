@@ -27,7 +27,7 @@
 <!-- GETTING STARTED -->
 ## Getting Started
 
-If you want to use this before I finish and release a GUI, start by cloning the repo. You'll then need to fill in configs.json with appropriate data. The majority should be obvious, but you'll need to have a MongoDB Cloud database (free tiers available <a href="https://www.mongodb.com/pricing"> here</a>) that is set up with a user able to edit the database (mongoUser/mongoPass) and network access for wherever you wish to run your server. The part that might be confusing about configs.json is the objects array. This is an array of the objects you want to be able to store in your database. See configsTest.json for an example. Finally, running python buildTheApi.py will build the API code in /newAPICode. cd into newAPICode, run npm install, and then node server.js should get you up and running!
+Start by cloning the repo. You'll then need to fill in configs.json with appropriate data. The majority should be obvious, but you'll need to have a MongoDB Cloud database (free tiers available <a href="https://www.mongodb.com/pricing"> here</a>) that is set up with a user able to edit the database (mongoUser/mongoPass) and network access for wherever you wish to run your server. The part that might be confusing about configs.json is the objects array. This is an array of the objects you want to be able to store in your database. See configsTest.json for an example. Finally, running python buildTheApi.py will build the API code in /newAPICode. cd into newAPICode, run npm install, and then node server.js should get you up and running!
 
 
 <!-- USAGE EXAMPLES -->
